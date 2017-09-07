@@ -1,0 +1,1 @@
+_erreurs_3 \r\n \r\nerreur dans les réponses \r\n erreur theta_chute, (3,4): la valeur est de -48.727404, mais devrait être de -45.609226 \r\n erreur theta_pend, (3): la valeur est de 11.210000, mais devrait être de 11.987942 \r\n erreur theta_pend, (4): la valeur est de -11.210000, mais devrait être de -11.987942

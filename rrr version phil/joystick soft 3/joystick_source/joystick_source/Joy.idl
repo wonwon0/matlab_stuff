@@ -1,0 +1,61 @@
+// Joy.idl : IDL source for Joy.dll
+// Copyright 1998-2000 by The MathWorks, Inc.
+// $Revision: 1.1 $  $Date: 2000/09/01 18:29:55 $
+
+// This file will be processed by the MIDL tool to..
+// ..produce the type library (Joy.tlb) and marshalling code.
+// All GUIDs MUST BE MODIFIED by the adaptor programmer.
+
+
+import "oaidl.idl";
+import "ocidl.idl";
+import "daqmex.idl";
+
+//TO_DO: Select new uuid for your own analog input interface. Use GUIDgen.
+	[
+		object,
+		uuid(61ABE1E1-AEAD-11d4-BAAF-00D0B7BAD1D3),
+		dual,
+		helpstring("IJoyin Interface"),
+		pointer_default(unique)
+	]
+	interface IJoyin : IDispatch	//IDispatch interface is not currently implemented..
+	{};								//..for the Joy adaptor
+
+//TO_DO: Select new uuid for your own adaptor type library. Use GUIDgen.
+[
+	uuid(61ABE1E2-AEAD-11d4-BAAF-00D0B7BAD1D3),
+	version(1.0),
+	helpstring("Joy 1.0 Type Library")
+]
+library JOYLib
+{
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+
+//TO_DO: Select new uuid for your own adaptor class. Use GUIDgen.
+	[
+		uuid(61ABE1E3-AEAD-11d4-BAAF-00D0B7BAD1D3),
+		helpstring("Joyadapt Class")
+	]
+	coclass Joyadapt
+	{
+		[default] interface ImwAdaptor;
+	};
+
+//TO_DO: Select new uuid for your own analog input class. Use GUIDgen.
+	[
+		uuid(61ABE1E4-AEAD-11d4-BAAF-00D0B7BAD1D3),
+		helpstring("Joyin Class")
+	]
+	coclass Joyin
+	{
+		[default] interface IJoyin;
+		interface ImwDevice;
+		interface ImwInput;
+	};
+};
+
+//TO_DO: If analog output or/and digital IO functionalities are implemented..
+//.. create your own coclass(es) here (use the example for "Joyin")
+//Destroy "Joyin" if it is not implemented in your adaptor.

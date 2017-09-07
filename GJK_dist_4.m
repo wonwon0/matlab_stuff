@@ -1,0 +1,134 @@
+function [dist,pts ] = GJK_dist_4( shape1, shape2,dist_last )
+
+% d=rand(1,3);
+d=[1 1 1];
+%pick a point
+a=support(shape1,shape2,d);
+%pick a second point to creat a line
+b=support(shape1,shape2,-d);
+%pick a third point to make a tirangle
+ab=b-a;
+ao=-a;
+%perpendicular direction
+d=cross(cross(ab,ao),ab);
+c=support(shape1,shape2,d);
+pts=[a b c];
+itt=0;
+pts_old=pts;
+norm_old=norm(pts_old);
+d_old=d;
+while true
+    if isequal(c,b) || isequal(c,a) %we have already converged (!) and the closest point lies on the line bc or ac
+        d=d+[0 0 1];
+        c=support(shape1,shape2,d);
+    else
+        break
+    end
+end
+while true
+    %we compute the norm of vector going from the origin to each member
+    %of the simplex
+    Norm_pts = (sqrt(sum(abs(pts').^2,2)));
+    %Computing and removing the farthest point of the simplex from the origin
+    [max_norm,index]=max(Norm_pts);
+
+    %new search direction
+
+
+        
+%         for i=1:3
+%             scal(i)=pts(:,1)'*pts(:,i);
+%         end
+%         if abs(sum(sign(scal)))==3
+%             list=[1 2 3];
+%             list(index)=[];
+%             d=cross(cross(pts(:,list(2))-pts(:,list(1)),-pts(:,list(1))),pts(:,list(2))-pts(:,list(1)));
+%         else
+            d=cross(pts(:,2)-pts(:,1),pts(:,3)-pts(:,1));
+            if d'*pts(:,1)>0
+                d=-d;
+            end
+%         end
+    d=d/norm(d);
+    ab_cop=cross(d,pts(:,2)-pts(:,1));
+    ac_cop=cross(d,pts(:,3)-pts(:,1));
+    bc_cop=cross(d,pts(:,3)-pts(:,2));
+    origin_projected=(pts(:,1)'*d)*d;
+    if ab_cop'*pts(:,3)<0
+        ab_cop=-ab_cop;
+    end
+    if ac_cop'*pts(:,2)<0
+        ac_cop=-ac_cop;
+    end
+    if bc_cop'*pts(:,1)<0
+        bc_cop=-bc_cop;
+    end
+    org_contained=sum(sign([ab_cop'*origin_projected ac_cop'*origin_projected bc_cop'*origin_projected]));
+    pts(:,index)=[];
+    if org_contained~=3
+        d=cross(cross(pts(:,2)-pts(:,1),-pts(:,1)),pts(:,2)-pts(:,1))
+    end
+    
+    %adding a new point to the simplex.
+    c=support(shape1,shape2,d);
+    pts=[pts c];
+%     if norm(c)>=max_norm || any(abs(Norm_pts-norm(c))<0.000001)
+%     if  all(abs(d-d_old)<0.01) || any(abs(Norm_pts-norm(c))<0.000001)
+%         break
+%     end
+
+    
+    
+    dist = pointTriangleDistance(pts',[0 0 0]);
+    if abs(dist-dist_last)<0.02 || itt>10
+%         if norm(pts)<norm_old
+        break
+    end
+    d_old=d;
+    pts_old=pts;
+    if abs(norm_old-norm(pts))<0.01
+        norm_old=norm(pts);
+    end
+    itt=itt+1;
+%         pause(0.1)
+end
+%     if isequal(pts(:,3),pts(:,2)) || isequal(pts(:,3),pts(:,1)) || isequal(pts(:,1),pts(:,2)) %we have already converged (!) and the closest point lies on the line bc or ac
+% %         d4 = distancePointLine3d([0 0 0], [pts(:,3)',(-pts(:,2)+pts(:,3))']);
+% %         d5 = distancePointLine3d([0 0 0], [pts(:,3)',(-pts(:,1)+pts(:,3))']);
+% %         d6 = distancePointLine3d([0 0 0], [pts(:,2)',(-pts(:,1)+pts(:,2))']);
+% 
+%         d1=norm(pts(:,1));
+%         d2=norm(pts(:,2));
+%         d3=norm(pts(:,3));
+%         d4 = distLinSeg(pts(:,1)',pts(:,2)',[0 0 0],[0 0 0]);
+%         d5 = distLinSeg(pts(:,1)',pts(:,3)',[0 0 0],[0 0 0]);
+%         d6 = distLinSeg(pts(:,2)',pts(:,3)',[0 0 0],[0 0 0]);
+%         dist=min([d1 d2 d3 d4 d5 d6]);
+%         dist=[0 0 0 0 0 0];
+%     else
+%         
+%         dist = pointTriangleDistance(pts',[0 0 0]);
+% %         dist=min([d1 d2 d3 d4]);
+%     end
+% 
+% end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
