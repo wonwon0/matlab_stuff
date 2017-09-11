@@ -24,7 +24,7 @@ joint_send.Positions = [0,-1,1,0,1,0];
 %joint_send.Accelerations = ones(1,6);
 %joint_send.Velocities = [1,1,1,1,1,1];
 joint_send.TimeFromStart = duration;
-joint_send.Effort = ones(1,6)*20000;
+joint_send.Effort = ones(1,6)*20;
 joint_cmd_msg.Points = joint_send;
 send(joint_cmd_publisher,joint_cmd_msg)
 pause(5)
