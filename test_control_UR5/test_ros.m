@@ -8,7 +8,7 @@
 clear
 rosshutdown
 rosinit
-dh=dh_UR5();
+dh=dh_UR5(6, 1, 180);
 armJoints = [-1,-1,-1,-1,-1,-1];
 theta_dot=[0;0;0;0;0;0];
 robot_joint_subscriber = rossubscriber('/arm_controller/state');
@@ -22,9 +22,13 @@ joint_send = rosmessage('trajectory_msgs/JointTrajectoryPoint');
 joint_cmd_msg.JointNames = pose_data.JointNames;
 joint_send.Positions = [0,-1,1,0,1,0];
 %joint_send.Accelerations = ones(1,6);
-%joint_send.Velocities = [1,1,1,1,1,1];
+joint_send.Velocities = [0;0;0;0;0;0];
 joint_send.TimeFromStart = duration;
-joint_send.Effort = ones(1,6)*20;
+<<<<<<< HEAD
+joint_send.Effort = ones(1,6)*20000;
+=======
+joint_send.Effort = ones(1,6) * 10000;
+>>>>>>> aeb3feeabac70891abfe54b9b1c60346436a4bbf
 joint_cmd_msg.Points = joint_send;
 send(joint_cmd_publisher,joint_cmd_msg)
 pause(5)
@@ -37,14 +41,27 @@ duration.Nsec = 40000000;
 % % Mouse3D('start');
 my_joystick = vrjoystick(1);
 last_cond = 0;
+Robot_Pose_j = pose_data.Actual.Positions;
+last_pose=cin_dir_6ddl(Robot_Pose_j,dh);
 while 1
     tic;
     pose_data = receive(robot_joint_subscriber,10);
     Robot_Pose_j = pose_data.Actual.Positions;
     Robot_Pose=cin_dir_6ddl(Robot_Pose_j,dh);
-
-    a = [axis(my_joystick,1), axis(my_joystick,2), axis(my_joystick,3)];
-
+    %(unitaire)     v_x                 v_y                    v_z
+    a = [axis(my_joystick,5), axis(my_joystick,6), (button(my_joystick,7) - button(my_joystick,8))];
+    
+    %(unitaire)     w_x                  w_y                 w_z
+    b = [axis(my_joystick,1), axis(my_joystick,2), axis(my_joystick,3)];
+    if norm(b) > 0
+        b = b/norm(b) / 100;
+    end
+%     examples_tous_les_boutons = [axis(my_joystick,1), axis(my_joystick,2), axis(my_joystick,3), ...
+%         axis(my_joystick,4), axis(my_joystick,5), axis(my_joystick,6), ...
+%         button(my_joystick,1), button(my_joystick,2), button(my_joystick,3),...
+%         button(my_joystick,4), button(my_joystick,5), button(my_joystick,6),...
+%         button(my_joystick,7), button(my_joystick,8), button(my_joystick,9)]
+    
     if (a(1)==0 && a(2)==0 && a(3)==0)
         dir=[0 0 0];
     elseif sqrt((double(a(1)))^2+(double(a(2)))^2+(double(a(3)))^2)<1
@@ -53,29 +70,43 @@ while 1
         dir=[double(a(2)),double(a(1)),-double(a(3))]/sqrt((double(a(1)))^2+(double(a(2)))^2+(double(a(3)))^2);
     end
     dir = dir * 10;
-    next_pose=Robot_Pose+[0 0 0 dir(1);0 0 0 dir(2);0 0 0 dir(3); 0 0 0 0]*1;
-    next_ang=cin_inv_6ddl(next_pose,dh,Robot_Pose_j);
-    for i =1:6
-        if (next_ang(i) - Robot_Pose_j(i))>pi
-            theta_dot(i)=-next_ang(i) - Robot_Pose_j(i)-2*pi;
-        elseif (next_ang(i) - Robot_Pose_j(i))<-pi
-            theta_dot(i)=next_ang(i) - Robot_Pose_j(i)+2*pi;
-        else
-            theta_dot(i)=next_ang(i) - Robot_Pose_j(i);
-        end
-    end
-    jac=jacob_UR5(next_ang,Robot_Pose,dh);
-    cond_jac = cond(jac);
-    if cond_jac>5000
-        if last_cond < cond_jac
-            theta_dot = theta_dot * 0;
-        end
-            
-        last_cond = cond_jac;
+    current_rotation_mat = Robot_Pose(1:3, 1:3);
+    if norm(a)<0.01 && norm(b) < 0.0001
+        next_pose = last_pose;
+        next_ang = cin_inv_6ddl(next_pose,dh,Robot_Pose_j)
+        theta_dot = [0;0;0;0;0;0];
+    else
+        next_rotation_mat = current_rotation_mat * eul2rotm(b, 'ZYX');
+        next_pose = [next_rotation_mat(1,:) dir(1) + Robot_Pose(1,4);...
+                     next_rotation_mat(2,:) dir(2) + Robot_Pose(2,4);...
+                     next_rotation_mat(3,:) dir(3) + Robot_Pose(3,4);...
+                     0 0 0 1]*1;
+        next_ang = cin_inv_6ddl(next_pose,dh,Robot_Pose_j);
+        theta_dot = wrapToPi(next_ang - Robot_Pose_j);
+
     end
     
+%     for i =1:6
+%         if (next_ang(i) - Robot_Pose_j(i))>pi
+%             theta_dot(i)=-next_ang(i) - Robot_Pose_j(i)-2*pi;
+%         elseif (next_ang(i) - Robot_Pose_j(i))<-pi
+%             theta_dot(i)=next_ang(i) - Robot_Pose_j(i)+2*pi;
+%         else
+%             theta_dot(i)=next_ang(i) - Robot_Pose_j(i);
+%         end
+%     end
+%     jac=jacob_UR5(next_ang,Robot_Pose,dh);
+%     cond_jac = cond(jac);
+%     if cond_jac>5000
+%         if last_cond < cond_jac
+%             theta_dot = theta_dot * 0;
+%         end
+%             
+%         last_cond = cond_jac;
+%     end
+    
     theta_dot=theta_dot / (duration.Nsec / 10^9);
-    theta_dot = SpeedLimiter(theta_dot, 1);
+    %theta_dot = SpeedLimiter(theta_dot, 0.5);
     theta_dot;
     joint_send.Positions = next_ang';
     joint_send.Velocities = theta_dot';
@@ -87,6 +118,7 @@ while 1
         pause(0.001)
         time = time + toc;
     end
+    last_pose = next_pose;
     time;
 end
 
