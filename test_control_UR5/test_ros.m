@@ -37,7 +37,7 @@ duration.Nsec = 40000000;
 % % Mouse3D('start');
 my_joystick = vrjoystick(1);
 last_cond = 0;
-Robot_Pose_j = pose_data.Actual.Positions
+Robot_Pose_j = pose_data.Actual.Positions;
 last_pose=cin_dir_6ddl(Robot_Pose_j,dh);
 last_pose_ang = Robot_Pose_j;
 while 1
@@ -87,15 +87,15 @@ while 1
 %             theta_dot(i)=next_ang(i) - Robot_Pose_j(i);
 %         end
 %     end
-%     jac=jacob_UR5(next_ang,Robot_Pose,dh);
-%     cond_jac = cond(jac);
-%     if cond_jac>5000
-%         if last_cond < cond_jac
-%             theta_dot = theta_dot * 0;
-%         end
-%             
-%         last_cond = cond_jac;
-%     end
+    jac=jacob_UR5(next_ang,Robot_Pose,dh);
+    cond_jac = cond(jac)
+    if cond_jac>5000
+        if last_cond < cond_jac
+            theta_dot = theta_dot * 0;
+        end
+            
+        last_cond = cond_jac;
+    end
     
     theta_dot=theta_dot / (duration.Nsec / 10^9);
     %theta_dot = SpeedLimiter(theta_dot, 0.5);
@@ -107,7 +107,7 @@ while 1
     time=toc;
     while time <= (duration.Nsec / 10^9)
         tic;
-        pause(0.001)
+        pause(0.01)
         time = time + toc;
     end
     last_pose = next_pose;

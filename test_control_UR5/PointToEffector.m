@@ -1,6 +1,8 @@
 function [normale_effecteur]=PointToEffector(pose_prox, pose_act, jacob_pt, jacob_eff )
-    normale_effecteur=[0 0 0];
+    normale_effecteur=[0 0 0 0 0 0];
     %if size(jacob_pt,2)==3
+    pose_prox
+    pose_act
     if 1
         vect_norm_plan=(pose_act-pose_prox)/norm(pose_act-pose_prox);
         K=jacob_pt/jacob_eff;

@@ -2,7 +2,7 @@ function [d_min, pose_prox, pose_prox_pt_act]=verifDistance_v5(limit,pose,jacobi
 
 %verification proximit�:
 n=length(limit.limite);
-
+pose = pose(1:3);
 for t=1:n
     if all(limit.limite(t).type=='poly')
         base=limit.limite(t).surfaces.surface1;
