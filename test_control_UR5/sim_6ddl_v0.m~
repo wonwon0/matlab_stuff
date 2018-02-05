@@ -61,16 +61,16 @@ while 1
         jacob_local = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh(i));
         %[d_min_t,pose_prox_t,pose_prox_pt_act]=verifDistance_v5(limit,Robot_Poses(i, :), jacob_local,jacob_eff,Robot_Pose_j);
         for j=1:length(contacts.Contacts)
-            if strcmp(contacts.Contacts(j).Collision2, 'ur_on_table::ur_6_hand_limb::ur_6_hand_limb_collision')
+            if contacts.Contacts(j).Collsion2 == 'ur_on_table::ur_6_hand_limb::ur_6_hand_limb_collision'
                 
                 contacts.Contacts(j).Normal
-                pose_prox(t,:) = Robot_Poses(1, 1:3) + contacts.Contacts(j).Normal';
-                pose_prox_pt_act = pose_prox;
+                pose_prox(t,:) = pose_act + contacts.Contacts(j).Normal';
+                pose_prox_pt_act(t,:) = pose_prox;
                 d_min_t(t) = 0.01;
             else
                 d_min_t(t) = 10;
-                pose_prox(t,:) = Robot_Poses(1, 1:3);
-                pose_prox_pt_act = pose_prox;
+                pose_prox(t,:) = pose_act;
+                pose_prox_pt_act(t,:) = pose_prox;
             end
             t = t+1;
         end
@@ -83,8 +83,6 @@ while 1
     %limite
     normale_effecteur=[];
     d_min_relevant=[];
-    d_min
-    pose_prox
     for i = 1:2:length(dh)
         jacob_pt=jacob_UR5(Robot_Pose_j ,Robot_Poses(i, :), dh(i));
         m=size(limit.limite,2);
@@ -106,10 +104,8 @@ while 1
         end
     end
     %%%%%%%%%%
-    normale_effecteur
     v_prem = dir;
     normale_effecteur = check_redund_v2(Robot_Poses(1,:), normale_effecteur,d_min_relevant,pose_prox);
-    normale_effecteur
     v_input=verifVitesse_v7(v_prem,normale_effecteur,d_min_relevant, min_gap * 1);
     normale_effecteur;
 %     if slide==0

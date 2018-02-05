@@ -1,10 +1,10 @@
 function [ vec_norm ] = check_redund_v2(pose_act, vec_norm_red,d_min,pose_prox)
-    %fonction détectant les vecteurs normaux redondants. Si deux points
-    %proximaux forment un vecteur qui est perpendiculaire à une des
-    %deux normales attachées à ces points, un des deux points forme alors
-    %une normale à l'effecteur redondante. Ceci cause un problème lorsque
+    %fonction dï¿½tectant les vecteurs normaux redondants. Si deux points
+    %proximaux forment un vecteur qui est perpendiculaire ï¿½ une des
+    %deux normales attachï¿½es ï¿½ ces points, un des deux points forme alors
+    %une normale ï¿½ l'effecteur redondante. Ceci cause un problï¿½me lorsque
     %on veut slider sur des joints.
-    %La fonction élimine aussi les limites qui sont cachées en arrières
+    %La fonction ï¿½limine aussi les limites qui sont cachï¿½es en arriï¿½res
     %d'autres limites.
     t=pose_prox;
     remove=[];
@@ -20,6 +20,7 @@ function [ vec_norm ] = check_redund_v2(pose_act, vec_norm_red,d_min,pose_prox)
     vec_norm(~any(isnan(vec_norm),2),:);
     d_min=d_min(c);
     n=size(vec_norm,1);
+
     for i=1:n
         for j=i+1:n
             point_1=pose_act-vec_norm(i,:)*d_min(i);

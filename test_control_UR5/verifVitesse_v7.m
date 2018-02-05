@@ -69,13 +69,13 @@ function [v_output]=verifVitesse_v7(v_input,vec_norm,d_min,thresh)
 %             end
 %         end
         mult=0;
-        for i=1:length(d_min)
-            if d_min(i)<(thresh-0.01)
-                d_min(i)
-                mult= abs((abs(d_min) - thresh)) * 0.05;
-                break
-            end
-        end
+%         for i=1:length(d_min)
+%             if d_min(i)<(thresh-0.01)
+%                 d_min(i)
+%                 mult= abs((abs(d_min) - thresh)) * 0.05;
+%                 break
+%             end
+%         end
 
         
         v_output=AxeRes'-mult*v_input;

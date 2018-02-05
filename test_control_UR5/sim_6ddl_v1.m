@@ -46,8 +46,8 @@ theta_dot_threshold = 0.0001;
 while 1
     tic;
     contacts = receive(contact_subscriber,10);
-    pose_data = receive(robot_joint_subscriber,10);
-    Robot_Pose_j = pose_data.Position(2:7)';
+    % pose_data = receive(robot_joint_subscriber,10);
+    % Robot_Pose_j = pose_data.Position(2:7)';
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh);
     Robot_Poses = Robot_Poses(1:3,4)';
     
@@ -64,52 +64,52 @@ while 1
             if strcmp(contacts.Contacts(j).Collision2, 'ur_on_table::ur_6_hand_limb::ur_6_hand_limb_collision')
                 
                 contacts.Contacts(j).Normal
-                pose_prox(t,:) = Robot_Poses(1, 1:3) + contacts.Contacts(j).Normal';
+                normal = [contacts.Contacts(j).Normal(2), -contacts.Contacts(j).Normal(1), contacts.Contacts(j).Normal(3)];
+                pose_prox(t,:) = Robot_Poses(1, :) + normal;
                 pose_prox_pt_act = pose_prox;
-                d_min_t(t) = 0.01;
-            else
-                d_min_t(t) = 10;
-                pose_prox(t,:) = Robot_Poses(1, 1:3);
-                pose_prox_pt_act = pose_prox;
+                d_min(t) = 0.01;
+                t = t+1;
             end
-            t = t+1;
+            
         end
-        d_min=[d_min d_min_t];
-        pose_prox=[pose_prox; pose_prox_pt_act];
-        poses_prox_pt_act.pose(i).poses=pose_prox_pt_act;
     end
     %on garde en m�moire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     normale_effecteur=[];
     d_min_relevant=[];
-    d_min
-    pose_prox
-    for i = 1:2:length(dh)
-        jacob_pt=jacob_UR5(Robot_Pose_j ,Robot_Poses(i, :), dh(i));
-        m=size(limit.limite,2);
-        min_gap = 5;
-        for j=1:m
-            if d_min((i-1)*m+j)<min_gap && ((all(limit.limite(j).type=='tube'))||(all(limit.limite(j).type=='sphe')))
-                if (all(limit.limite(j).type=='tube')) && ddl(i)==2
-                    ;
-                else
-                    normale_effecteur_loc=PointToEffector(pose_prox((i-1)*m+j,:), Robot_Poses(i,:), jacob_pt, jacob_eff );
-                    normale_effecteur=[normale_effecteur;normale_effecteur_loc];
-                    d_min_relevant=[d_min_relevant;d_min((i-1)*m+j)];
-                end
-            elseif d_min((i-1)*m+j)<min_gap
-                normale_effecteur_loc=PointToEffector(pose_prox((i-1)*m+j,:), Robot_Poses(i,:), jacob_pt, jacob_eff );
-                normale_effecteur=[normale_effecteur;normale_effecteur_loc];
-                d_min_relevant=[d_min_relevant;d_min((i-1)*m+j)];
-            end
+    min_gap = 5;
+    jacob_pt=jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh(1));
+    for i=1:length(d_min)
+        if d_min(i)<min_gap
+            normale_effecteur_loc=PointToEffector(pose_prox(i,:), Robot_Poses(1,:), jacob_pt, jacob_eff );
+            normale_effecteur=[normale_effecteur;normale_effecteur_loc(1,1:3)];
+            d_min_relevant=[d_min_relevant;d_min(i)];
         end
     end
+%     for i = 1:2:length(dh)
+%         jacob_pt=jacob_UR5(Robot_Pose_j ,Robot_Poses(i, :), dh(i));
+%         m=size(limit.limite,2);
+%         min_gap = 5;
+%         for j=1:m
+%             if d_min((i-1)*m+j)<min_gap && ((all(limit.limite(j).type=='tube'))||(all(limit.limite(j).type=='sphe')))
+%                 if (all(limit.limite(j).type=='tube')) && ddl(i)==2
+%                     ;
+%                 else
+%                     normale_effecteur_loc=PointToEffector(pose_prox((i-1)*m+j,:), Robot_Poses(i,:), jacob_pt, jacob_eff );
+%                     normale_effecteur=[normale_effecteur;normale_effecteur_loc];
+%                     d_min_relevant=[d_min_relevant;d_min((i-1)*m+j)];
+%                 end
+%             elseif d_min((i-1)*m+j)<min_gap
+%                 normale_effecteur_loc=PointToEffector(pose_prox((i-1)*m+j,:), Robot_Poses(i,:), jacob_pt, jacob_eff );
+%                 normale_effecteur=[normale_effecteur;normale_effecteur_loc];
+%                 d_min_relevant=[d_min_relevant;d_min((i-1)*m+j)];
+%             end
+%         end
+%     end
     %%%%%%%%%%
-    normale_effecteur
     v_prem = dir;
     normale_effecteur = check_redund_v2(Robot_Poses(1,:), normale_effecteur,d_min_relevant,pose_prox);
-    normale_effecteur
     v_input=verifVitesse_v7(v_prem,normale_effecteur,d_min_relevant, min_gap * 1);
     normale_effecteur;
 %     if slide==0
@@ -122,6 +122,7 @@ while 1
     theta_dot = SpeedLimiter(theta_dot, 1);
     
     [ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
+    Robot_Pose_j = next_ang;
 end
 
 
