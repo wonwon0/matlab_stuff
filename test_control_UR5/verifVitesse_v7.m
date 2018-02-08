@@ -23,10 +23,11 @@ function [v_output]=verifVitesse_v7(v_input,vec_norm,d_min,thresh)
         else
              Limitation=vec_norm';
         end
+        Limitation;
         % Find the active limitations
         for i=1:size(Limitation,2) 
             Limitation(:,i)=Limitation(:,i)/norm(Limitation(:,i));
-           if ((Axe'*Limitation(:,i)) < 0)
+           if ((Axe'*Limitation(:,i)) <= 0)
                numberLimitActive=numberLimitActive+1;
                LimitationActive=[LimitationActive,Limitation(:,i)/norm(Limitation(:,i))];
                d_active = [d_active, d_min(i) / thresh];
@@ -34,11 +35,12 @@ function [v_output]=verifVitesse_v7(v_input,vec_norm,d_min,thresh)
            end
         end
         d_active;
-        numberLimitActive;
+        numberLimitActive
+        Limitation
         Axe=v_input';
         AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_active);
         for j=1:size(Limitation,2) % Check that the resulting vector satisfies all limitations.
-            if (AxeRes'*Limitation(:,j))<-0.000000000001
+            if (AxeRes'*Limitation(:,j))<-0.000000001
                 LimitationActive=[LimitationActive,Limitation(:,j)/norm(Limitation(:,j))];
                 d_active = [d_active, d_min(j) / thresh];
                 Axe=v_input';
@@ -68,16 +70,12 @@ function [v_output]=verifVitesse_v7(v_input,vec_norm,d_min,thresh)
 %                 AxeRes=[0;0;0];%else set to zero
 %             end
 %         end
-        mult=0;
-%         for i=1:length(d_min)
-%             if d_min(i)<(thresh-0.01)
-%                 d_min(i)
-%                 mult= abs((abs(d_min) - thresh)) * 0.05;
-%                 break
-%             end
+%         if isempty(d_min)>0
+%             mult=0;
+%         else
+%             mult= max(abs(d_min))*10;
 %         end
-
-        
+        mult=0;
         v_output=AxeRes'-mult*v_input;
         
         

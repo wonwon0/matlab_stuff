@@ -1,11 +1,11 @@
 function [ dir, rot ] = read_joystick_inputs( my_joystick )
     %(unitaire)     v_x                 v_y                    v_z
-    a = [axis(my_joystick,1), axis(my_joystick,2), (button(my_joystick,7) - button(my_joystick,8))];
+    a = [axis(my_joystick,5), axis(my_joystick,6), (button(my_joystick,7) - button(my_joystick,8))];
     
     %(unitaire)     w_x                  w_y                 w_z
-    rot = [axis(my_joystick,5), axis(my_joystick,6), axis(my_joystick,3)];
+    rot = [axis(my_joystick,2), axis(my_joystick,1), axis(my_joystick,3)];
     if norm(rot) > 0
-        rot = rot/norm(rot)/1000;
+        rot = rot/norm(rot)/300;
     end
     
     if (a(1)==0 && a(2)==0 && a(3)==0)

@@ -16,7 +16,7 @@ function [ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_a
     send(joint_cmd_publisher,joint_cmd_message);
     if not(all(stationnary_joints))
         joint_cmd_message.Name = name_moving;
-        joint_cmd_message.Position = [];
+        joint_cmd_message.Position = next_ang_mod;
         joint_cmd_message.Velocity = theta_dot_moving;
         send(joint_cmd_publisher,joint_cmd_message)
         Robot_Pose_j_history(not(stationnary_joints)) = next_ang_mod(not(stationnary_joints));

@@ -4,7 +4,6 @@ function [normale_effecteur]=PointToEffector(pose_prox, pose_act, jacob_pt, jaco
     if 1
         vect_norm_plan=[(pose_act-pose_prox)/norm(pose_act-pose_prox),0 ,0, 0];
         K=jacob_pt/jacob_eff;
-        K
         for i=1:6
             K(i,:)=K(i,:)/norm(K(i,:))*vect_norm_plan(i);
             normale_effecteur=normale_effecteur+K(i,:);

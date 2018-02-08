@@ -37,6 +37,7 @@ Robot_Pose_j = pose_data.Position(2:7)';
 Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
 pose_init = cin_dir_6ddl(Robot_Pose_j,dh_eff);
 pose_init = [pose_init(1,4), pose_init(2,4), pose_init(3,4)];
+pose_init
 % on examine l'état des collisions au départ de l'algo
 
 jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh(1));
@@ -45,32 +46,34 @@ jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh(1));
 theta_dot_threshold = 0.0001;
 while 1
     tic;
-    contacts = receive(contact_subscriber,10);
+    
     % pose_data = receive(robot_joint_subscriber,10);
     % Robot_Pose_j = pose_data.Position(2:7)';
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh);
-    Robot_Poses = Robot_Poses(1:3,4)';
+    Robot_Poses = Robot_Poses(1:3,4)'
     
     [ dir, rot ] = read_joystick_inputs( my_joystick );
     
     % On cherche si un objet entre en collision avec le robot
-    pose_prox=[];d_min=[];
+    pose_prox=[];d_min=[];normal=[];
     jacob_eff = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh(1));
     t=1;
-    for i=1:size(Robot_Poses,1)
-        jacob_local = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh(i));
-        %[d_min_t,pose_prox_t,pose_prox_pt_act]=verifDistance_v5(limit,Robot_Poses(i, :), jacob_local,jacob_eff,Robot_Pose_j);
-        for j=1:length(contacts.Contacts)
-            if strcmp(contacts.Contacts(j).Collision2, 'ur_on_table::ur_6_hand_limb::ur_6_hand_limb_collision')
-                
-                contacts.Contacts(j).Normal
-                normal = [contacts.Contacts(j).Normal(2), -contacts.Contacts(j).Normal(1), contacts.Contacts(j).Normal(3)];
-                pose_prox(t,:) = Robot_Poses(1, :) + normal;
-                pose_prox_pt_act = pose_prox;
-                d_min(t) = 0.01;
-                t = t+1;
+    for s = 1:3
+        contacts = receive(contact_subscriber,10);
+        for i=1:size(Robot_Poses,1)
+            jacob_local = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh(i));
+            %[d_min_t,pose_prox_t,pose_prox_pt_act]=verifDistance_v5(limit,Robot_Poses(i, :), jacob_local,jacob_eff,Robot_Pose_j);
+            for j=1:length(contacts.Contacts)
+                if strcmp(contacts.Contacts(j).Collision2, 'ur_on_table::ur_6_hand_limb::ur_6_hand_limb_fixed_joint_lump__ur_ee_link_collision_1')||...
+                        strcmp(contacts.Contacts(j).Collision1, 'ur_on_table::ur_6_hand_limb::ur_6_hand_limb_fixed_joint_lump__ur_ee_link_collision_1')
+                    normal(t,:) = [-contacts.Contacts(j).Normal(1), -contacts.Contacts(j).Normal(2), -contacts.Contacts(j).Normal(3)];
+                    pose_prox(t,:) = Robot_Poses(1, :) - normal(t,:);
+                    pose_prox_pt_act = pose_prox;
+                    d_min(t) = 0;
+                    t = t+1;
+                end
+
             end
-            
         end
     end
     %on garde en m�moire l'input de l'utilisateur
@@ -81,12 +84,12 @@ while 1
     min_gap = 5;
     jacob_pt=jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh(1));
     for i=1:length(d_min)
-        if d_min(i)<min_gap
-            normale_effecteur_loc=PointToEffector(pose_prox(i,:), Robot_Poses(1,:), jacob_pt, jacob_eff );
-            normale_effecteur=[normale_effecteur;normale_effecteur_loc(1,1:3)];
-            d_min_relevant=[d_min_relevant;d_min(i)];
-        end
+        normale_effecteur_loc=PointToEffector_v2(normal(i,:), jacob_pt, jacob_eff );
+        normale_effecteur=[normale_effecteur;normale_effecteur_loc(1,1:3)];
+        d_min_relevant=[d_min_relevant;d_min(i)];
     end
+    d_min_relevant;
+    normale_effecteur;
 %     for i = 1:2:length(dh)
 %         jacob_pt=jacob_UR5(Robot_Pose_j ,Robot_Poses(i, :), dh(i));
 %         m=size(limit.limite,2);

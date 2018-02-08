@@ -13,7 +13,7 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
         AxeRes=Axe; % The resulting vector is the initial vector
     elseif numberLimitActive==1 % If 1 active limitation
         Vecta=(Axe'*LimitationActive)*LimitationActive; % Component along restriceted direction
-        AxeRes=Axe-Vecta *(1 + 0.0001 * (2 - d_active)); % Remove the component from the vector
+        AxeRes=Axe-Vecta *(1); % Remove the component from the vector
     else %If several limit active
         for i=1:numberLimitActive % For all combination pairs between limitations planes
             for j=i+1:numberLimitActive
@@ -70,10 +70,10 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
             end
         end
         for i=1:size(vect_ok,2)
-            AxeRes=AxeRes+vect_ok(:,i) * (1 + (0.0001 * (2 - d_active)));
+            AxeRes=AxeRes+vect_ok(:,i) * (1);
         end
         for i=1:size(vectd_ok,2)
-            AxeRes=AxeRes+vectd_ok(:,i) * (1 + (0.0001 * (2 - d_active)));
+            AxeRes=AxeRes+vectd_ok(:,i) * (1);
         end
     %             for i=1:size(vect_nok,2)
     %                 d_min_nok(i)/limit_proximite

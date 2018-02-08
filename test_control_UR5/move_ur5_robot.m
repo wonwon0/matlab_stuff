@@ -16,7 +16,7 @@ function [ next_ang, theta_dot, next_pose ] = move_ur5_robot( dir, rot, last_con
 
     jac=jacob_UR5(next_ang,Robot_Pose,dh);
     cond_jac = cond(jac);
-    if cond_jac>5000
+    if cond_jac>8000
         if last_cond < cond_jac
             theta_dot = theta_dot * 0;
         end
