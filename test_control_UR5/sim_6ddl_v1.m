@@ -38,11 +38,11 @@ pose_init;
 % on examine l'état des collisions au départ de l'algo
 
 jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh(1));
-[d_min, pose_prox, pose_prox_pt_act] = verifDistance_v5(limit, pose_init, jacob_eff, jacob_eff, Robot_Pose_j);
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
+min_gap = 1;
 while 1
-    
+    tic;
     % pose_data = receive(robot_joint_subscriber,10);
     % Robot_Pose_j = pose_data.Position(2:7)';
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh);
@@ -51,14 +51,14 @@ while 1
     [ dir, rot ] = read_joystick_inputs( my_joystick );
     
     % On cherche si un objet entre en collision avec le robot
-    [normale_effecteur, collision_pose_eff] = collision_manager(contact_subscriber, Robot_Pose_j, Robot_Poses, dh_eff);
+    [normale_effecteur, collision_pose_eff, d_min] = collision_manager(contact_subscriber, Robot_Pose_j, Robot_Poses, dh_eff);
     
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     v_prem = dir;
-    normale_effecteur = check_redund_v2(Robot_Poses(1,:), normale_effecteur,d_min_relevant, collision_pose_eff);
-    v_input=verifVitesse_v7(v_prem,normale_effecteur,d_min_relevant, min_gap * 1);
+    normale_effecteur = check_redund_v2(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
+    v_input=verifVitesse_v7(v_prem,normale_effecteur,d_min, min_gap * 1);
     normale_effecteur;
     
     

@@ -7,8 +7,7 @@ function [ dh ] = dh_UR5(link, ratio, end_effector_offset)
 % link (from the base joint to the end joint of the link).
 
 if nargin < 3
-    if nargin < 2 
-      link = 6;
+    if nargin < 2
       ratio = 1;
     end
     end_effector_offset = 0;

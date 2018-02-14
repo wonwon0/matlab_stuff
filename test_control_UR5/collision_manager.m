@@ -1,9 +1,9 @@
     
-function [normale_effecteur, collision_pose_eff] = collision_manager(contact_subscriber, Robot_Pose_j, Robot_Poses, dh_eff)
+function [normale_effecteur, collision_pose_eff, d_min] = collision_manager(contact_subscriber, Robot_Pose_j, Robot_Poses, dh_eff)
 
 
 contacts = receive(contact_subscriber,10);
-normale_effecteur = []; collision_pose = [];
+normale_effecteur = []; collision_poses = []; collision_pose_eff = []; d_min = [];
 
 membrures_robot = containers.Map;
 
@@ -22,31 +22,36 @@ t = 1;
 for i=1:size(Robot_Poses,1)
     jacob_eff = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh_eff);
     for j=1:length(contacts.Contacts)
-        membrure = membrures_robot(contacts.Contacts(j).Collision2);
+        try
+            membrure = membrures_robot(contacts.Contacts(j).Collision2);
         
         
-        Pose_base_membrure = cin_dir_6ddl( Robot_Pose_j, dh_UR5(membrure-1));
-        Pose_base_membrure = Pose_base_membrure(1:3,4)';
-        Pose_bout_membrure = cin_dir_6ddl( Robot_Pose_j, dh_UR5(membrure));
-        Pose_bout_membrure = Pose_bout_membrure(1:3,4)';
-        Pose_collision = (contacts.Contacts(j).Position(1:3)' - [0, 0, z_offset]) * 1000;
         
-        Pose_proj_collision = projPointOnLine3d(Pose_collision, [Pose_base_membrure,Pose_bout_membrure]);
-        
-        
-        ratio = norm(Pose_proj_collision - Pose_base_membrure) / norm(Pose_bout_membrure - Pose_base_membrure);
-        
-        dh_local = dh_UR5(membrure, ratio);
-        jacob_local = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh_local);
-        
-        normal = [-contacts.Contacts(j).Normal(1), -contacts.Contacts(j).Normal(2), -contacts.Contacts(j).Normal(3)];
-        normale_effecteur_loc=PointToEffector_v2(normal, jacob_local, jacob_eff );
-        normale_effecteur(t,:) = [normale_effecteur; normale_effecteur_loc(1,1:3)];
-        collision_pose_eff(t,:) = Robot_Poses(1, :) - normale_effecteur_loc(1,1:3);
-        Pose_collision = collision_pose - normal;
-        
-        d_min(t) = 0;
-        t = t+1;
+            Pose_base_membrure = cin_dir_6ddl( Robot_Pose_j, dh_UR5(membrure-1));
+            Pose_base_membrure = Pose_base_membrure(1:3,4)';
+            Pose_bout_membrure = cin_dir_6ddl( Robot_Pose_j, dh_UR5(membrure));
+            Pose_bout_membrure = Pose_bout_membrure(1:3,4)';
+            Pose_collision = (contacts.Contacts(j).Position(1:3)' - [0, 0, z_offset]) * 1000;
+
+            Pose_proj_collision = projPointOnLine3d(Pose_collision, [Pose_base_membrure,Pose_bout_membrure]);
+
+
+            ratio = norm(Pose_proj_collision - Pose_base_membrure) / norm(Pose_bout_membrure - Pose_base_membrure);
+
+            dh_local = dh_UR5(membrure, ratio);
+            jacob_local = jacob_UR5(Robot_Pose_j ,Robot_Poses(1, :), dh_local);
+
+            normal = [-contacts.Contacts(j).Normal(1), -contacts.Contacts(j).Normal(2), -contacts.Contacts(j).Normal(3)];
+            normale_effecteur_loc=PointToEffector_v2(normal, jacob_local, jacob_eff );
+            normale_effecteur(t,:) = [normale_effecteur; normale_effecteur_loc(1,1:3)];
+            collision_pose_eff(t,:) = Robot_Poses(1, :) - normale_effecteur_loc(1,1:3);
+            collision_poses(t,:) = Pose_collision - normal;
+
+            d_min(t) = 0;
+            t = t+1;
+        catch
+            continue
+        end
     end
 end
 
