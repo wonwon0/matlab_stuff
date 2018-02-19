@@ -41,6 +41,7 @@ jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh(1));
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
 min_gap = 1;
+membrures_robot = get_membrures_robot();
 while 1
     tic;
     % pose_data = receive(robot_joint_subscriber,10);
@@ -51,18 +52,20 @@ while 1
     [ dir, rot ] = read_joystick_inputs( my_joystick );
     
     % On cherche si un objet entre en collision avec le robot
-    [normale_effecteur, collision_pose_eff, d_min] = collision_manager(contact_subscriber, Robot_Pose_j, Robot_Poses, dh_eff);
+    [normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
     
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
-    v_prem = dir;
-    normale_effecteur = check_redund_v2(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
-    v_input=verifVitesse_v7(v_prem,normale_effecteur,d_min, min_gap * 1);
-    normale_effecteur;
-    
-    
-    [ next_ang, theta_dot, next_pose ] = move_ur5_robot( v_input, rot, last_cond, robot_joint_subscriber, dh );
+    v_prem = [dir rot];
+    normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
+    %v_input=verifVitesse_v8(v_prem,normale_effecteur,d_min, min_gap * 1);
+    if ~isempty(normale_effecteur)
+        dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
+        rot=verifVitesse_v7(rot,normale_effecteur(:,4:6),d_min, min_gap * 1);
+    end
+    v_input = [dir rot];
+    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2(v_input, last_cond, robot_joint_subscriber, dh);
     
     theta_dot = SpeedLimiter(theta_dot, 1);
     

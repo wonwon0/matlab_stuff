@@ -7,6 +7,7 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
         vect_ok=[];
         vectd_ok=[];
         vect_nok=[];
+        d_min_nok=[];
 
         
     if numberLimitActive==0 % If no active limitations  
@@ -50,12 +51,14 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
                 end
             end
         end
+        
         for i=1:size(Vectb,2)
             for j=1:size(LimitationActive,2)
                 if Vectb(:,i)'*LimitationActive(:,j)<=0
                     vect_ok=[vect_ok, Vectb(:,i)];
                 else
                     vect_nok=[vect_nok, Vectb(:,i)];
+                    d_min_nok = [d_min_nok, d_active(i)];
                 end
             end
         end
@@ -75,10 +78,10 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
         for i=1:size(vectd_ok,2)
             AxeRes=AxeRes+vectd_ok(:,i) * (1);
         end
-    %             for i=1:size(vect_nok,2)
-    %                 d_min_nok(i)/limit_proximite
-    %                 AxeRes=AxeRes+(d_min_nok(i)/limit_proximite)*vect_nok(:,i);
-    %             end
+        LimitationActive
+        for i=1:size(LimitationActive,2)
+            AxeRes = AxeRes+(d_min_nok(i))*LimitationActive(:,i)
+        end
         if AxeRes==([0 0 0]');
             ;
         elseif isempty(vect_ok)||size(vect_ok,2)>6

@@ -11,7 +11,5 @@ function [ jac ] = jacob_UR5( theta_act, Pose, dh )
         x -sin(theta(1))*(z-dh.b(1)) -sin(theta(1))*(z-dh.b(1)-dh.a(2)*sin(theta(2))) sin(theta(1))*(dh.b(5)*cos(theta(2)+theta(3)+theta(4))+dh.b(6)*sin(theta(2)+theta(3)+theta(4))*sin(theta(5))) dh.b(6)*(cos(theta(1))*sin(theta(5))-sin(theta(1))*cos(theta(2)+theta(3)+theta(4))*cos(theta(5))) 0;
         0 cos(theta(1))*x+sin(theta(1))*y dh.a(3)*cos(theta(2)+theta(3))+dh.b(5)*sin(theta(2)+theta(3)+theta(4))-dh.b(6)*cos(theta(2)+theta(3)+theta(4))*sin(theta(5)) dh.b(5)*sin(theta(2)+theta(3)+theta(4))-dh.b(6)*cos(theta(2)+theta(3)+theta(4))*sin(theta(5)) -dh.b(6)*sin(theta(2)+theta(3)+theta(4))*cos(theta(5)) 0];
 
-
-
 end
 

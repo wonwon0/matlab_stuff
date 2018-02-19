@@ -5,7 +5,6 @@ function [ q_sols ] = cin_inv_6ddl( Pose,dh,theta_act)
 % SOUS-ACTIONN� ET UNE CAM�RA 3D"
 % Seuil au del� duquel la valeur est consid�r�e comme valant 0 (permet de r�duire l'impr�cision num�rique)
 ZERO_THRESH = 10^-8;
-theta_act=theta_act+dh.theta';
 % Q=[cos(euler(2))*cos(euler(1))*cos(euler(3))-sin(euler(1))*sin(euler(3)) -cos(euler(2))*cos(euler(1))*sin(euler(3))-sin(euler(1))*cos(euler(3)) sin(euler(2))*cos(euler(1));
 %     cos(euler(2))*sin(euler(1))*cos(euler(3))+cos(euler(1))*sin(euler(3)) -cos(euler(2))*sin(euler(1))*sin(euler(3))+cos(euler(1))*cos(euler(3)) sin(euler(2))*sin(euler(1));
 %     -sin(euler(2))*cos(euler(3)) sin(euler(2))*sin(euler(3)) cos(euler(2))];
