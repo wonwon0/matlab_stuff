@@ -59,12 +59,11 @@ while 1
     %limite
     v_prem = [dir rot];
     normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
-    %v_input=verifVitesse_v8(v_prem,normale_effecteur,d_min, min_gap * 1);
+%     v_input=verifVitesse_v8(v_prem,normale_effecteur,d_min, min_gap * 1);
     if ~isempty(normale_effecteur)
         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
-        rot=verifVitesse_v7(rot,normale_effecteur(:,4:6),d_min, min_gap * 1);
+        rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
     end
-    v_input = [dir rot];
     [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2(v_input, last_cond, robot_joint_subscriber, dh);
     
     theta_dot = SpeedLimiter(theta_dot, 1);

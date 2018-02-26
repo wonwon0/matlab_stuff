@@ -38,7 +38,7 @@ function [v_output]=verifVitesse_v7(v_input,vec_norm,d_min,thresh)
         numberLimitActive;
         Limitation;
         Axe=v_input';
-        AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_active);
+        AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_active)
         for j=1:size(Limitation,2) % Check that the resulting vector satisfies all limitations.
             if (AxeRes'*Limitation(:,j))<-0.000000001
                 LimitationActive=[LimitationActive,Limitation(:,j)/norm(Limitation(:,j))];

@@ -10,9 +10,9 @@ function [normale_effecteur]=PointToEffector_v3(vect_norm_plan, jacob_pt, jacob_
         end
         normale_effecteur(abs(normale_effecteur)<0.0000000001)=0;
         normale_effecteur = normale_effecteur / norm(normale_effecteur);
-        normale_effecteur(1:3) = normale_effecteur(1:3) / norm(normale_effecteur(1:3))
-        normale_effecteur(4:6) = normale_effecteur(4:6) / norm(normale_effecteur(4:6))
-        normale_effecteur(isnan(normale_effecteur))=0
+        normale_effecteur(1:3) = normale_effecteur(1:3) / norm(normale_effecteur(1:3));
+        normale_effecteur(4:6) = normale_effecteur(4:6) / norm(normale_effecteur(4:6));
+        normale_effecteur(isnan(normale_effecteur))=0;
         normale_effecteur = normale_effecteur / norm(normale_effecteur)
         
     elseif size(jacob_pt,2)==2

@@ -3,13 +3,11 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
         nbCross=0;              % Number of common lines between planes (number of 2 planes combinations) Might not be used.
         nbCrossOK=0;            % Number of common lines between planes that are not equals.
         Vectb=[];               % Resulting vector
-        AxeRes=[0 0 0]';
+        AxeRes=[0 0 0 0 0 0]';
         vect_ok=[];
         vectd_ok=[];
         vect_nok=[];
         d_min_nok=[];
-
-        
     if numberLimitActive==0 % If no active limitations  
         AxeRes=Axe; % The resulting vector is the initial vector
     elseif numberLimitActive==1 % If 1 active limitation
@@ -19,27 +17,27 @@ function AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_activ
         for i=1:numberLimitActive % For all combination pairs between limitations planes
             for j=i+1:numberLimitActive
                 nbCross=nbCross+1;%increment the number of intersections
-                LimitationCross = cross(LimitationActive(:,i),LimitationActive(:,j));%Vector perpendicular to both planes
+                LimitationCross = cross(LimitationActive(1:3,i),LimitationActive(1:3,j));%Vector perpendicular to both planes
                 if norm(LimitationCross)>0.0001 %If the planes are not parallel
                     nbCrossOK=nbCrossOK+1;%Increment the number of non-parallel combinations
                     LimitationCross=LimitationCross/norm(LimitationCross);%Normalize
                     Vectb(:,nbCrossOK)=(Axe'*LimitationCross)*LimitationCross;%Component of the vector along the common vector
 
                     % Vector in plane
-                    Vectc1=cross(LimitationActive(:,i),LimitationCross); % Vector in plane 1, perpendicular to the common vector.
+                    Vectc1=cross(LimitationActive(1:3,i),LimitationCross); % Vector in plane 1, perpendicular to the common vector.
                     Vectc1=Vectc1/norm(Vectc1);
 
-                    Vectc2=cross(LimitationActive(:,j),LimitationCross); % Vector in plane 2, perpendicular to the common vector.
+                    Vectc2=cross(LimitationActive(1:3,j),LimitationCross); % Vector in plane 2, perpendicular to the common vector.
                     Vectc2=Vectc2/norm(Vectc2);
 
                     Vectd1=(Axe'*Vectc1)*Vectc1; % Component in plane 1 along VectC1
                     Vectd2=(Axe'*Vectc2)*Vectc2; % Component in plane 2 along VectC2
                     Vectd1good=1;
                     Vectd2good=1;
-                    if Vectd1'*LimitationActive(:,j)<0  % Verify if Vectd1 goes in plane 2
+                    if Vectd1'*LimitationActive(1:3,j)<0  % Verify if Vectd1 goes in plane 2
                         Vectd1good=0;
                     end
-                    if Vectd2'*LimitationActive(:,i)<0  % Verify if Vectd2 goes in plane 1  
+                    if Vectd2'*LimitationActive(1:3,i)<0  % Verify if Vectd2 goes in plane 1  
                         Vectd2good=0;
                     end
 
