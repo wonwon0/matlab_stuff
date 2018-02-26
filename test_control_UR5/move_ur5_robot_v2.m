@@ -17,12 +17,17 @@ function [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2( v_input, last_c
 
     jac=jacob_UR5(next_ang,Robot_Pose,dh);
     cond_jac = cond(jac);
-    if cond_jac>8000
+    if cond_jac>9000
         if last_cond < cond_jac
             theta_dot = theta_dot * 0;
+            formatSpec = 'conditionnement %f';
+            string = sprintf(formatSpec, cond_jac);
+            display(string)
+        else
+            last_cond = cond_jac;
         end
             
-        last_cond = cond_jac;
+        
     end
 end
 

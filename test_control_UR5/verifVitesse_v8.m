@@ -25,16 +25,16 @@ function [v_output]=verifVitesse_v8(v_input,vec_norm,d_min,thresh)
         numberLimitActive;
         Limitation;
         Axe=v_input';
-        AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_active);
-        for j=1:size(Limitation,2) % Check that the resulting vector satisfies all limitations.
-            
-                LimitationActive=[LimitationActive,Limitation(:,j)/norm(Limitation(:,j))];
-                d_active = [d_active, d_min(j) / thresh];
-                Axe=v_input';
-                numberLimitActive=numberLimitActive+1;
-                AxeRes=limit_manager_v2(numberLimitActive,LimitationActive,Axe, d_active);
-            
-        end
+        AxeRes=limit_manager_v2(LimitationActive,Axe);
+%         for j=1:size(Limitation,2) % Check that the resulting vector satisfies all limitations.
+%             
+%                 LimitationActive=[LimitationActive,Limitation(:,j)/norm(Limitation(:,j))];
+%                 d_active = [d_active, d_min(j) / thresh];
+%                 Axe=v_input';
+%                 numberLimitActive=numberLimitActive+1;
+%                 AxeRes=limit_manager_v2(LimitationActive,Axe);
+%             
+%         end
 
          mult=0;
 %         if isempty(d_min)>0
