@@ -44,8 +44,8 @@ min_gap = 1;
 membrures_robot = get_membrures_robot();
 while 1
     tic;
-    % pose_data = receive(robot_joint_subscriber,10);
-    % Robot_Pose_j = pose_data.Position(2:7)';
+    pose_data = receive(robot_joint_subscriber,10);
+    Robot_Pose_j = pose_data.Position(2:7)';
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh);
     Robot_Poses = Robot_Poses(1:3,4)';
     
@@ -58,18 +58,19 @@ while 1
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     v_prem = [dir rot];
-    normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
-    v_input=verifVitesse_v8(v_prem,normale_effecteur,d_min, min_gap * 1);
+    % normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
+    v_input=verifVitesse_v8_1(v_prem,normale_effecteur,d_min, min_gap * 1);
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
 %     end
-    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2(v_input, last_cond, robot_joint_subscriber, dh);
+    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2(v_input, last_cond, robot_joint_subscriber, dh, Robot_Pose_j);
     
     theta_dot = SpeedLimiter(theta_dot, 1);
     
     [ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
-    Robot_Pose_j = next_ang;
+    % Robot_Pose_j = next_ang;
+    Robot_Pose_j = Robot_Pose_j_history;
 end
 
 

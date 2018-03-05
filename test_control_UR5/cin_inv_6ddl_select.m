@@ -1,9 +1,9 @@
 function [ q_sols ] = cin_inv_6ddl_select( Pose,dh,theta_act)
-%cinématique inverse du robot UR5
-%ce référer au mémoire de maitrise de François LÉVESQUES pour la théorie
-%"PRISE AUTONOME D’OBJETS DIVERS AVEC UN ROBOT SÉRIEL INDUSTRIEL, UN PRÉHENSEUR
-% SOUS-ACTIONNÉ ET UNE CAMÉRA 3D"
-% Seuil au delà duquel la valeur est considérée comme valant 0 (permet de réduire l'imprécision numérique)
+%cinï¿½matique inverse du robot UR5
+%ce rï¿½fï¿½rer au mï¿½moire de maitrise de Franï¿½ois Lï¿½VESQUES pour la thï¿½orie
+%"PRISE AUTONOME Dï¿½OBJETS DIVERS AVEC UN ROBOT Sï¿½RIEL INDUSTRIEL, UN PRï¿½HENSEUR
+% SOUS-ACTIONNï¿½ ET UNE CAMï¿½RA 3D"
+% Seuil au delï¿½ duquel la valeur est considï¿½rï¿½e comme valant 0 (permet de rï¿½duire l'imprï¿½cision numï¿½rique)
 ZERO_THRESH = 10^-8;
 % theta_act=theta_act+dh.theta;
 % Q=[cos(euler(2))*cos(euler(1))*cos(euler(3))-sin(euler(1))*sin(euler(3)) -cos(euler(2))*cos(euler(1))*sin(euler(3))-sin(euler(1))*cos(euler(3)) sin(euler(2))*cos(euler(1));
@@ -11,7 +11,7 @@ ZERO_THRESH = 10^-8;
 %     -sin(euler(2))*cos(euler(3)) sin(euler(2))*sin(euler(3)) cos(euler(2))];
 
 
-% Nombre de solutions au problème géométrique inverse
+% Nombre de solutions au problï¿½me gï¿½omï¿½trique inverse
         num_sols = 0;
         q_sols = [0 0 0 0 0 0]';
 
@@ -77,7 +77,7 @@ else
         q1(2) = 2.0*pi + neg;
     end
 end
-%SÉLECTION DE theta1
+%Sï¿½LECTION DE theta1
 
 for i=1:2
     if q1(i)>pi
@@ -130,7 +130,7 @@ if isreal(arc_cos)
     q5(1) = arc_cos;
     q5(2) = 2.0*pi - arc_cos;
 end
-%SÉLECTION DE theta1
+%Sï¿½LECTION DE theta1
 
 for i=1:2
     if q5(i)>pi
@@ -203,7 +203,7 @@ end
         elseif abs(c3) > 1.0
             % PoseODO  NO SOLUPoseION
             % Il n'existe pas de solution dans cette branche. 
-            % Passage à la prochaine itération de la boucle j.
+            % Passage ï¿½ la prochaine itï¿½ration de la boucle j.
             q_sols=theta_act;
         end
         arc_cos = acos(c3);
@@ -259,7 +259,7 @@ end
             q4(k) = q4(k)+2.0 * pi;
         end
 
-        % Ajout de la solution (si applicable) à la liste de 
+        % Ajout de la solution (si applicable) ï¿½ la liste de 
         % solution(s) possible(s)
         local_sol=theta_act;
         local_sol(1) = theta_1;

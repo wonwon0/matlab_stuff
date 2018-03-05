@@ -1,13 +1,14 @@
-function [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2( v_input, last_cond, robot_joint_subscriber, dh )
+function [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2( v_input, last_cond, robot_joint_subscriber, dh, Robot_Pose_j )
     dir = v_input(1:3);
     rot = v_input(4:6);
-    pose_data = receive(robot_joint_subscriber,10);
-    Robot_Pose_j = pose_data.Position(2:7)';
-    Robot_Pose_j = wrapToPi(Robot_Pose_j);
-    Robot_Pose=cin_dir_6ddl(Robot_Pose_j,dh);
-    current_rotation_mat = Robot_Pose(1:3, 1:3);
+    %pose_data = receive(robot_joint_subscriber,10);
+    %Robot_Pose_j = pose_data.Position(2:7)';
+    %Robot_Pose_j = wrapToPi(Robot_Pose_j);
+    
+    [Robot_Pose, pose_euler] = cin_dir_6ddl_v2( Robot_Pose_j, dh);
+    next_pose_euler = pose_euler + rot;
 
-    next_rotation_mat = current_rotation_mat * eul2rotm(rot, 'ZYX');
+    next_rotation_mat = eul2rotm(next_pose_euler, 'ZYZ');
     next_pose = [next_rotation_mat(1,:) dir(1) + Robot_Pose(1,4);...
                  next_rotation_mat(2,:) dir(2) + Robot_Pose(2,4);...
                  next_rotation_mat(3,:) dir(3) + Robot_Pose(3,4);...
