@@ -39,7 +39,7 @@ function [v_output]=verifVitesse_v8_1(v_input,vec_norm,d_min,thresh)
 %                    ratio_proximite=[ratio_proximite, 1-d_min(i)/limit_proximite];
            end
         end
-        LimitationActive
+        LimitationActive;
         AxeRes_rot = limit_manager(numberLimitActive, LimitationActive,Axe(4:6));
         AxeRes = [AxeRes_trans; AxeRes_rot];
          mult=0;

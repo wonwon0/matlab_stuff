@@ -41,7 +41,7 @@ for i=1:size(Robot_Poses,1)
 
         normal = [-contacts.Contacts(j).Normal(1), -contacts.Contacts(j).Normal(2), -contacts.Contacts(j).Normal(3)];
         
-        normale_effecteur_loc=PointToEffector_v3(normal, jacob_local, jacob_eff );
+        normale_effecteur_loc=PointToEffector_v2(normal, jacob_local, jacob_eff );
         
         
         normale_effecteur = [normale_effecteur; normale_effecteur_loc];

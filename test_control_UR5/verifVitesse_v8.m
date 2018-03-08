@@ -27,11 +27,11 @@ function [v_output]=verifVitesse_v8(v_input,vec_norm,d_min,thresh)
         Axe=v_input';
         AxeRes=limit_manager_v2(LimitationActive,Axe);
 
-         mult=0;
+        mult=0;
 %         if isempty(d_min)>0
 %             mult=0;
 %         else
-%             mult= max(abs(d_min))*10;
+%             mult= max(abs(d_min))*10
 %         end
         v_output=AxeRes'-mult*v_input;
         
