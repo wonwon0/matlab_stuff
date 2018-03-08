@@ -32,13 +32,13 @@ function [v_output]=verifVitesse_v7(v_input,vec_norm,d_min,thresh)
         end
         numberLimitActive;
         Axe=v_input';
-        AxeRes=limit_manager_v2(LimitationActive,Axe);
+        AxeRes=limit_manager(LimitationActive,Axe);
         for j=1:size(Limitation,2) % Check that the resulting vector satisfies all limitations.
             if (AxeRes'*Limitation(:,j))<-0.000000000001
                 LimitationActive=[LimitationActive,Limitation(:,j)/norm(Limitation(:,j))];
                 Axe=v_input';
                 numberLimitActive=numberLimitActive+1;
-                AxeRes=limit_manager_v2(LimitationActive,Axe);
+                AxeRes=limit_manager(LimitationActive,Axe);
             end
         end
 %         if nbCrossOK==0 %If all limitations are perpendicular, its as if there was one limitation
