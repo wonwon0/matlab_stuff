@@ -9,6 +9,9 @@ function [ dh ] = dh_UR5(link, ratio, end_effector_offset)
 if nargin < 3
     if nargin < 2
       ratio = 1;
+      if nargin <1
+          link = 6;
+      end
     end
     end_effector_offset = 0;
 end

@@ -25,7 +25,7 @@ vect_ok = [];
 flag = 0;
 for i = 1:size(u,2)
     for j = 1:size(vectors,2)
-        if norm(project_vector(vectors(:,j),u(:,i))) > 0.1 % clearing allmost linearly dependent vectors
+        if norm(project_vector(vectors(:,j),u(:,i))) > 0.00001 % clearing allmost linearly dependent vectors
             flag = 1;
             break
         end

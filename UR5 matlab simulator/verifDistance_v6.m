@@ -1,4 +1,4 @@
-function [d_min, pose_prox, pose_prox_pt_act]=verifDistance_v6(limit,pose,jacobian, jacobian_eff,theta)
+function [d_min, poses_prox, pose_prox_pt_act, normales_effecteur]=verifDistance_v6(limit,pose,jacobian, jacobian_eff, pose_eff)
 
 %verification proximit�:
 n=length(limit.limite);
@@ -45,7 +45,7 @@ for t=1:n
                 end
             end
         else
-            d_min(t)=10;
+            d_min(t)=10000;
             pose_prox(t,:)=pose;
         end
     elseif all(limit.limite(t).type=='tube')
@@ -54,7 +54,7 @@ for t=1:n
             top=limit.limite(t).surfaces.base+limit.limite(t).surfaces.axe*limit.limite(t).surfaces.longueur;
             pos = linePosition3d(pose, [base top]);
             %si on est en haut ou en bas de l'objet:
-            if pos<0 || pos>1;
+            if pos<0 || pos>1
                 if pos>1
                     p_A=(pos*limit.limite(t).surfaces.longueur)*limit.limite(t).surfaces.axe+base;
                     p_B=(pose-p_A)*limit.limite(t).surfaces.dia/2/norm(pose-p_A)-pos*limit.limite(t).surfaces.axe;
@@ -76,7 +76,7 @@ for t=1:n
                 end
             end
         else
-            d_min(t)=10;
+%             d_min(t)=10000;
             pose_prox(t,:)=pose;
         end
     elseif all(limit.limite(t).type=='sphe')
@@ -84,19 +84,20 @@ for t=1:n
             pose_prox(t,:)=pose+(limit.limite(t).radius-norm((pose-limit.limite(t).centroide)))*(pose-limit.limite(t).centroide)/norm(pose-limit.limite(t).centroide);
             d_min(t)=abs((limit.limite(t).radius-norm((pose-limit.limite(t).centroide))));
         else
-            d_min(t)=10;
+            d_min(t)=10000;
             pose_prox(t,:)=pose;
         end
     end
 end
+% pose_prox_act  sont les position des points de contacts
 pose_prox_pt_act=pose_prox;
-if jacobian~=jacobian_eff
-    n=size(pose_prox,1);
-    for t=1:n
-        vec_norm(t,:)=(pose-pose_prox(t,:))/norm(pose-pose_prox(t,:));
-    end
+normales_effecteur = [];
+for t=1:n
+    vec_norm=(pose-pose_prox(t,:))/norm(pose-pose_prox(t,:));
     normale_effecteur=PointToEffector_v4(vec_norm, jacobian, jacobian_eff );
-    for t=1:n
-        pose_prox(t,:)=pose+normale_effecteur;
-    end
+    normales_effecteur = [normales_effecteur; normale_effecteur];
+end
+% pose_prox sont les position des points de contact reportés à l'effecteur
+for t=1:n
+    poses_prox(t,:)=pose_eff+normales_effecteur(t,:);
 end

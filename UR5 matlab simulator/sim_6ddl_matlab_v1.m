@@ -43,6 +43,24 @@ theta_dot_threshold = 0.0001;
 min_gap = 1;
 membrures_robot = get_membrures_robot();
 limit = StructureLimites_v3();
+
+%affichage des membrures positionn�es.
+fig=figure(1);
+set(fig, 'renderer', 'OpenGL');
+camlight;
+axis vis3d equal;
+view(2);
+%set(gca,'Ydir','reverse')
+set(gca,'Xdir','reverse')
+xlabel('x')
+ylabel('y')
+zlabel('z')
+axis([-3 3 -3 3 -0.5 3]);
+afficherLimites(limit);
+mat_ligne_x=[1 2];
+mat_ligne_y=[1 2];
+mat_ligne_z=[1 2];
+h8=line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','r');
 while 1
     tic;
     pose_data = receive(robot_joint_subscriber,10);
@@ -53,7 +71,7 @@ while 1
     [ dir, rot ] = read_joystick_inputs( my_joystick );
     % On cherche si un objet entre en collision avec le robot
     [normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
-    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff);
+    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act,h8] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h8);
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
@@ -71,6 +89,8 @@ while 1
     [ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
     % Robot_Pose_j = next_ang;
     Robot_Pose_j = Robot_Pose_j_history;
+    
+    drawnow limitrate
 end
 
 

@@ -23,7 +23,7 @@ function [v_output]=verifVitesse_v8(v_input,vec_norm,d_min,thresh)
         end
         d_active;
         numberLimitActive;
-        LimitationActive;
+        LimitationActive
         Axe=v_input';
         AxeRes=limit_manager_v3(LimitationActive,Axe);
 
