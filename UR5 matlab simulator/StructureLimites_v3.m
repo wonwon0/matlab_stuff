@@ -33,7 +33,7 @@ limit.limite(1).surfaces.surface2=[0 0 1;
                                     0 1 1;
                                     0 0 1] * 1000;
 limit.limite(1).rayonProxy= 1.5 * 1000;
-limit.limite(1).offset= ([0 0.75 0.5]) * 1000;
+limit.limite(1).offset= ([0 0.7 0.5]-general_offset) * 1000;
 limit.limite(1).opp=0.3 ;
 
 % limit.limite(1).surfaces.surface1=[0.1 0.1 0.1;

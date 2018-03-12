@@ -13,7 +13,7 @@ function [v_output]=verifVitesse_v8(v_input,vec_norm,d_min,thresh)
         Axe;
         Limitation;
         % Find the active limitations
-        for i=1:size(Limitation,2)
+        for i=1:size(Limitation,2) 
             Limitation(:,i)=Limitation(:,i)/norm(Limitation(:,i));
            if ((Axe'*Limitation(:,i)) <= 0) && d_min(i)<thresh
                numberLimitActive=numberLimitActive+1;
@@ -27,15 +27,16 @@ function [v_output]=verifVitesse_v8(v_input,vec_norm,d_min,thresh)
         LimitationActive;
         Axe=v_input';
         AxeRes=limit_manager_v3(LimitationActive,Axe);
-        inv_command = zeros(6,1);
+
         mult=0;
-        [min_d_active, index_d_active] = min(d_active);
-        if min_d_active <(thresh-0.001)
-            mult = 1 - min_d_active/thresh;
-            inv_command = LimitationActive(:,index_d_active) * mult / 10;
+        for i=1:length(d_active)
+            if d_active(i)<(thresh-0.001)
+                mult = 1 - d_active(i)/thresh;
+                inv_command = LimitationActive
+                break
+            end
         end
-        inv_command
-        v_output=(AxeRes + inv_command)';
+        v_output=AxeRes'-mult*v_input;
         
         
 end

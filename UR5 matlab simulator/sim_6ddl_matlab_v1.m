@@ -6,6 +6,7 @@
 % Set PC IP in Polyscope program
 % First run Matlab code; then run the Polyscope program
 clear
+close all
 % rosshutdown
 % rosinit
 addpath('../rrr version phil v2')
@@ -40,7 +41,7 @@ pose_init;
 jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh(1));
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
-min_gap = 1;
+min_gap = 20;
 membrures_robot = get_membrures_robot();
 limit = StructureLimites_v3();
 
@@ -60,7 +61,8 @@ afficherLimites(limit);
 mat_ligne_x=[1 2];
 mat_ligne_y=[1 2];
 mat_ligne_z=[1 2];
-h8=line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','r');
+h_robot_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','b');
+h_collision_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','r');
 while 1
     tic;
     pose_data = receive(robot_joint_subscriber,10);
@@ -71,13 +73,14 @@ while 1
     [ dir, rot ] = read_joystick_inputs( my_joystick );
     % On cherche si un objet entre en collision avec le robot
     [normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
-    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act,h8] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h8);
+    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act,h_collision_lines] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h_collision_lines);
+    
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     v_prem = [dir rot];
     % normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
-    v_input=verifVitesse_v8(v_prem,normale_effecteur,d_min, min_gap * 1);
+    v_input=verifVitesse_v8(v_prem,normale_effecteur_matlab,d_min_matlab, min_gap * 1);
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
@@ -88,6 +91,10 @@ while 1
     
     [ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
     % Robot_Pose_j = next_ang;
+    
+    %affichage du robot dans le graphique matlab
+    [h_robot_lines] = display_robot_UR5(Robot_Pose_j, dh_eff, h_robot_lines);
+    
     Robot_Pose_j = Robot_Pose_j_history;
     
     drawnow limitrate
