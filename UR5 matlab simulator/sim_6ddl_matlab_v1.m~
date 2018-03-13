@@ -15,7 +15,7 @@ addpath('../rrr version phil/geom3d/meshes3d')
 addpath('../rrr version phil/p_poly_dist_v1')
 addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
-%[robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, dh_eff] = ur5_ros_controller_init();
+[robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, dh_eff] = ur5_ros_controller_init();
 % contact_subscriber = rossubscriber('/forces');
 % contacts = receive(contact_subscriber,10);
 % for i = 1:100
@@ -24,14 +24,14 @@ addpath('../rrr version phil/Remesher')
 % end
 % rosshutdown
 % % Mouse3D('start');
-dh_eff = dh_UR5();
+
 my_joystick = vrjoystick(1);
 last_cond = 0;
 
 % trouver l'état actuel du robot
-%pose_data = receive(robot_joint_subscriber,10);
+pose_data = receive(robot_joint_subscriber,10);
 Robot_Pose_j = [-1,-2,2,0,1,0];
-%Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
+Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
 pose_init = cin_dir_6ddl(Robot_Pose_j,dh_eff);
 pose_init = [pose_init(1,4), pose_init(2,4), pose_init(3,4)];
 pose_init;
@@ -64,6 +64,7 @@ h_robot_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','
 h_collision_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','r');
 while 1
     tic;
+    pose_data = receive(robot_joint_subscriber,10);
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh_eff);
     Robot_Poses = Robot_Poses(1:3,4)';
     
@@ -87,7 +88,7 @@ while 1
     
     theta_dot = SpeedLimiter(theta_dot, 1);
     
-    %[ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
+    [ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
     % Robot_Pose_j = next_ang;
     
     %affichage du robot dans le graphique matlab
@@ -96,10 +97,6 @@ while 1
     Robot_Pose_j = next_ang;
     
     drawnow limitrate
-    time = toc;
-    while time < 0.01
-        time = toc;
-    end
 end
 
 

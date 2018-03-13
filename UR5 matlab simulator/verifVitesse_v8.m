@@ -34,7 +34,6 @@ function [v_output]=verifVitesse_v8(v_input,vec_norm,d_min,thresh)
             mult = 1 - min_d_active/thresh;
             inv_command = LimitationActive(:,index_d_active) * mult / 10;
         end
-        inv_command
         v_output=(AxeRes + inv_command)';
         
         
