@@ -27,7 +27,9 @@ function [v_output]=verifVitesse_trans_rot_v0(v_input,vec_norm,d_min,thresh)
         AxeRes_trans = limit_manager(size(LimitationActive_trans,2), LimitationActive_trans,Axe_trans);
         
         % repect rotation limitations
-        AxeRes_rot = limit_manager(size(LimitationActive_trans,1), LimitationActive_rot,Axe_rot);
+        LimitationActive_rot;
+        Axe_rot;
+        AxeRes_rot = limit_manager(size(LimitationActive_rot,2), LimitationActive_rot,Axe_rot);
         
         AxeRes = [AxeRes_trans; AxeRes_rot];
         

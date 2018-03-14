@@ -15,7 +15,8 @@ addpath('../rrr version phil/geom3d/meshes3d')
 addpath('../rrr version phil/p_poly_dist_v1')
 addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
-%[robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, dh_eff] = ur5_ros_controller_init();
+
+link_2_gazebo = false;
 % contact_subscriber = rossubscriber('/forces');
 % contacts = receive(contact_subscriber,10);
 % for i = 1:100
@@ -29,9 +30,9 @@ my_joystick = vrjoystick(1);
 last_cond = 0;
 
 % trouver l'état actuel du robot
-%pose_data = receive(robot_joint_subscriber,10);
+
 Robot_Pose_j = [-1,-2,2,0,1,0];
-%Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
+
 pose_init = cin_dir_6ddl(Robot_Pose_j,dh_eff);
 pose_init = [pose_init(1,4), pose_init(2,4), pose_init(3,4)];
 pose_init;
@@ -62,13 +63,21 @@ mat_ligne_y=[1 2];
 mat_ligne_z=[1 2];
 h_robot_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','b');
 h_collision_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','r');
+
+
+if link_2_gazebo
+    [robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, ~] = ur5_ros_controller_init();
+    pose_data = receive(robot_joint_subscriber,10);
+    Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
+end
+
 while 1
     tic;
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh_eff);
     Robot_Poses = Robot_Poses(1:3,4)';
     
     [ dir, rot ] = read_joystick_inputs( my_joystick );
-    rot(end) = 0;
+    
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
     [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act,h_collision_lines] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h_collision_lines);
@@ -83,12 +92,14 @@ while 1
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
 %     end
-    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v2(v_input, last_cond, dh_eff, Robot_Pose_j);
+    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v3(v_input, last_cond, dh_eff, Robot_Pose_j);
     
     theta_dot = SpeedLimiter(theta_dot, 1);
     
-    %[ Robot_Pose_j_history ] = ros_ur_controller_manager( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
-    % Robot_Pose_j = next_ang;
+    
+    if link_2_gazebo
+        [ Robot_Pose_j_history ] = ros_ur_controller_manager_v1( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
+    end
     
     %affichage du robot dans le graphique matlab
     [h_robot_lines] = display_robot_UR5(Robot_Pose_j, dh_eff, h_robot_lines);

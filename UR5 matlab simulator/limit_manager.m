@@ -7,9 +7,6 @@ function AxeRes=limit_manager(numberLimitActive,LimitationActive,Axe)
         vect_ok=[];
         vectd_ok=[];
         vect_nok=[];
-        numberLimitActive
-        LimitationActive
-        Axe
 
         
     if numberLimitActive==0 % If no active limitations  

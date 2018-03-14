@@ -23,7 +23,7 @@ function [ vec_norm ] = check_redund_v3(pose_act, vec_norm_red,d_min,pose_prox)
 
     for i=1:n
         for j=i+1:n
-            pose_act
+            pose_act;
             vec_norm(i,:)
             d_min(i)
             point_1=pose_act-vec_norm(i,:)*d_min(i);
