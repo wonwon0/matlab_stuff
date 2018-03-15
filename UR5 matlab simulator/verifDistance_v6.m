@@ -97,6 +97,7 @@ for t=1:n
     normale_effecteur=PointToEffector_v4(vec_norm, jacobian, jacobian_eff );
     normales_effecteur = [normales_effecteur; normale_effecteur];
 end
+
 % pose_prox sont les position des points de contact reportés à l'effecteur
 for t=1:n
     poses_prox(t,:)=pose_eff+normales_effecteur(t,:);
