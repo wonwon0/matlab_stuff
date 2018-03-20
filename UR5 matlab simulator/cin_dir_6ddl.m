@@ -12,6 +12,7 @@ function Pose = cin_dir_6ddl( q, dh)
 %                                                        y0 y1 y2 y3 y4 y5;
 %                                                        z0 z1 z2 z3 z4 z5))
         ZERO_THRESH=10^-8;
+        %q = q + dh.theta';
         p = zeros(3,6);
         Q = [1 0 0;0 1 0;0 0 1];
         c=cos(q);

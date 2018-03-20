@@ -1,4 +1,4 @@
-function [d_min, poses_prox, pose_prox_pt_act, normales_effecteur]=verifDistance_v6(limit,pose,jacobian, jacobian_eff, pose_eff)
+function [d_min, poses_prox, pose_prox_pt_act, normales_effecteur]=verifDistance_v6(limit,pose,jacobian, jacobian_eff, pose_eff, membrure)
 
 %verification proximit�:
 n=length(limit.limite);
@@ -94,7 +94,7 @@ pose_prox_pt_act=pose_prox;
 normales_effecteur = [];
 for t=1:n
     vec_norm=(pose-pose_prox(t,:))/norm(pose-pose_prox(t,:));
-    normale_effecteur=PointToEffector_v5(vec_norm, jacobian, jacobian_eff );
+    normale_effecteur=PointToEffector_v5(vec_norm, jacobian, jacobian_eff, membrure);
     normales_effecteur = [normales_effecteur; normale_effecteur];
 end
 % pose_prox sont les position des points de contact reportés à l'effecteur

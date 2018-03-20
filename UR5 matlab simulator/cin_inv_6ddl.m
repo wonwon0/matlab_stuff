@@ -13,6 +13,7 @@ ZERO_THRESH = 10^-8;
 % Nombre de solutions au probl�me g�om�trique inverse
         num_sols = 0;
         q_sols = [0 0 0 0 0 0]';
+        %theta_act = theta_act + dh.theta';
 
 %______________CALCUL DE THETA 1__________________
 q1=[0,0];
@@ -277,7 +278,6 @@ end
         else 
             q_sols = [q_sols local_sol];
         end
-
     %on remet les angles entre -pi et pi
     for t=1:6
         if q_sols(t)>pi

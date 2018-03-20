@@ -25,7 +25,7 @@ modifier_links(link) = ratio;
 
 dh.a=[0 -425 -392.25 0 0 0]' .* modifier_links;
 dh.b=[89.159 0 0 109.15 94.65 82.3 + end_effector_offset]' .* modifier_links;
-dh.alpha=[pi/2 0 0 pi/2 -pi/2 0]'.* modifier;
+dh.alpha=[pi/2 0 0 pi/2 -pi/2 0]'.*modifier;
 dh.theta=[0 -pi/2 0 -pi/2 0 0]'.* modifier;
 
 

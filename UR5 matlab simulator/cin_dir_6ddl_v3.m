@@ -11,12 +11,13 @@ function [Pose, euler, p] = cin_dir_6ddl_v3( q, dh)
 %         cartesiennes de toutes les articulations p = ((x0 x1 x2 x3 x4 x5;
 %                                                        y0 y1 y2 y3 y4 y5;
 %                                                        z0 z1 z2 z3 z4 z5))
+        %q = q + dh.theta';        
         ZERO_THRESH=10^-8;
         p = zeros(3,6);
         Q = [1 0 0;0 1 0;0 0 1];
         c=cos(q);
         s=sin(q);
-
+        
         for i=1:6
             A = [dh.a(i)*c(i),dh.a(i)*s(i),dh.b(i)]';
 

@@ -1,5 +1,5 @@
     
-function [normales_effecteur, d_min, pose_prox, poses_prox_pt_act, h8] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h8)
+function [normales_effecteur, d_min, pose_prox, poses_prox_pt_act, h8] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h8, min_distance)
 
 
 
@@ -14,16 +14,15 @@ z_offset = 0.899734982808; % pour tenir compte de l'élévation du robot dans le
 t = 1;
 [Robot_Poses, euler, poses_articulations] = cin_dir_6ddl_v3(Robot_Pose_j, dh_eff);
 pose_eff = [Robot_Poses(1:3, 4)', euler];
-jacob_eff = jacob_UR5(Robot_Pose_j, pose_eff, dh_eff);
+jacob_eff = jacob_UR5(Robot_Pose_j, Robot_Poses(1:3,4), dh_eff);
 
 
 
 %On cherche si un objet entre en collision avec le robot
-min_distance = 10000;
 for i = 2:size(poses_articulations,2)
     dh_local = dh_UR5(i);
     jacob_local = jacob_UR5(Robot_Pose_j ,poses_articulations(:,i)', dh_local, i);
-    [d_min_t, pose_prox_t, pose_prox_pt_act, vect_normales_effecteur]=verifDistance_v6(limit,poses_articulations(:,i)',jacob_local, jacob_eff, pose_eff);
+    [d_min_t, pose_prox_t, pose_prox_pt_act, vect_normales_effecteur]=verifDistance_v6(limit,poses_articulations(:,i)',jacob_local, jacob_eff, pose_eff, i);
     
     if d_min_t < min_distance
         normales_effecteur = [normales_effecteur; vect_normales_effecteur];
@@ -32,9 +31,6 @@ for i = 2:size(poses_articulations,2)
     end
     poses_prox_pt_act.pose(i).poses=pose_prox_pt_act;
 end
-
-
-
 
 mat_ligne_x=[];
 mat_ligne_y=[];

@@ -1,9 +1,11 @@
 function [normale_effecteur]=PointToEffector_v5(vect_norm_plan, jacob_pt, jacob_eff, membrure)
 
+    membrure
     if membrure == 6
-    else
-    jacob_pt(:,membrure+1:end)=0;
-    end
+        eles
+    jacob_pt(:,membrure+1:end)=0
+    jacob_eff
+
 
     vect_norm_plan=[0, 0, 0, vect_norm_plan];
     K_trans=jacob_pt/jacob_eff;
