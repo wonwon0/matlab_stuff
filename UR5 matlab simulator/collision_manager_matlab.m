@@ -19,17 +19,19 @@ jacob_eff = jacob_UR5(Robot_Pose_j, Robot_Poses(1:3,4), dh_eff);
 
 
 %On cherche si un objet entre en collision avec le robot
-for i = 2:size(poses_articulations,2)
+for i = 2:size(poses_articulations,2)       %pour chacun des points d'intéret du robot
     dh_local = dh_UR5(i);
     jacob_local = jacob_UR5(Robot_Pose_j ,poses_articulations(:,i)', dh_local, i);
     [d_min_t, pose_prox_t, pose_prox_pt_act, vect_normales_effecteur]=verifDistance_v6(limit,poses_articulations(:,i)',jacob_local, jacob_eff, pose_eff, i);
     
-    if d_min_t < min_distance
-        normales_effecteur = [normales_effecteur; vect_normales_effecteur];
-        d_min=[d_min d_min_t];
-        pose_prox=[pose_prox;pose_prox_pt_act];
+    for j = 1:length(d_min_t)       %pour chacun des objets colisionables
+        if d_min_t(j) < min_distance
+            normales_effecteur = [normales_effecteur; vect_normales_effecteur(j,:)];
+            d_min=[d_min d_min_t(j)];
+            pose_prox=[pose_prox;pose_prox_pt_act(j,:)];
+        end
+        poses_prox_pt_act.pose(i).poses=pose_prox_pt_act;
     end
-    poses_prox_pt_act.pose(i).poses=pose_prox_pt_act;
 end
 
 mat_ligne_x=[];

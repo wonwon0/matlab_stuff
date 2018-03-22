@@ -87,7 +87,7 @@ while 1
     %limite
     v_prem = [dir rot];
     % normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
-    v_input=verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
+    v_input=verifVitesse_v9(v_prem, normale_effecteur_matlab, d_min_matlab, min_distance);
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
@@ -104,7 +104,7 @@ while 1
     %affichage du robot dans le graphique matlab
     [h_robot_lines] = display_robot_UR5(Robot_Pose_j, dh_eff, h_robot_lines);
     
-    Robot_Pose_j = next_ang;
+    Robot_Pose_j = Robot_Pose_j + theta_dot * 0.01;
     
     drawnow limitrate
     time = toc;

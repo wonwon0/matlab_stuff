@@ -37,6 +37,29 @@ limit.limite(1).rayonProxy= 1.5 * 1000;
 limit.limite(1).offset= ([0 0.35 1.25]-general_offset) * 1000;
 limit.limite(1).opp=0.3 ;
 
+
+
+%solide 2
+
+limit.limite(2).type='poly';
+
+dim = 0.25;
+limit.limite(2).surfaces.surface1=[0 0 0;
+                                    dim 0 0;
+                                    dim dim 0;
+                                    0 dim 0;
+                                    0 0 0] * 1000;
+limit.limite(2).surfaces.surface2=[0 0 dim;
+                                    dim 0 dim;
+                                    dim dim dim;
+                                    0 dim dim;
+                                    0 0 dim] * 1000;
+limit.limite(2).rayonProxy= 1.5 * 1000;
+limit.limite(2).offset= ([0.2 0.45 1.45]-general_offset) * 1000;
+limit.limite(2).opp=0.3 ;
+
+
+
 % limit.limite(1).surfaces.surface1=[0.1 0.1 0.1;
 %                                     0.4 0.1 0.1;
 %                                     0.4 0.4 0.1;
