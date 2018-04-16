@@ -263,7 +263,7 @@ while 1
         end
     end
     v_prem=dir;
-    normale_effecteur = check_redund_v2(pose_act(1,:), normale_effecteur,d_min_relevant,pose_prox)
+    normale_effecteur = check_redund_v2(pose_act(1,:), normale_effecteur,d_min_relevant,pose_prox);
     v_input=verifVitesse_v7_2(v_prem,normale_effecteur,d_min_relevant,0.01);
     if slide==0
         if ~all(v_prem==v_input)
