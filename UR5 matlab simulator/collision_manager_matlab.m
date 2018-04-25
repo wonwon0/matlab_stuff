@@ -19,7 +19,7 @@ jacob_eff = jacob_UR5(Robot_Pose_j, Robot_Poses(1:3,4), dh_eff);
 
 
 %On cherche si un objet entre en collision avec le robot
-for i = 2:size(poses_articulations,2)       %pour chacun des points d'intéret du robot
+for i = 5:size(poses_articulations,2)       %pour chacun des points d'intéret du robot
     dh_local = dh_UR5(i);
     jacob_local = jacob_UR5(Robot_Pose_j ,poses_articulations(:,i)', dh_local, i);
     [d_min_t, pose_prox_t, pose_prox_pt_act, vect_normales_effecteur]=verifDistance_v6(limit,poses_articulations(:,i)',jacob_local, jacob_eff, pose_eff, i);
