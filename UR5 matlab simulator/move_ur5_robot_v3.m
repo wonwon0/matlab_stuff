@@ -10,7 +10,7 @@ function [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v3( v_input, last_c
                  next_rotation_mat(2,:) dir(2) + Robot_Pose(2,4);...
                  next_rotation_mat(3,:) dir(3) + Robot_Pose(3,4);...
                  0 0 0 1]*1;
-    next_ang = cin_inv_6ddl(next_pose, dh, Robot_Pose_j);
+    next_ang = cin_inv_6ddl_v1(next_pose, Robot_Pose_j);
     theta_dot = (next_ang - Robot_Pose_j)/0.01;
     
     jac=jacob_UR5(next_ang, next_pose(1:3,4), dh);
