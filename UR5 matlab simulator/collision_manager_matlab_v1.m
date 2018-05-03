@@ -21,7 +21,7 @@ jacob_eff = jacobians{1};
 %On cherche si un objet entre en collision avec le robot
 for i = 1:size(poses_articulations,2)       %pour chacun des points d'intéret du robot
     jacob_local = jacobians{i};
-    [d_min_t, ~, pose_prox_pt_act, vect_normales_effecteur]=verifDistance_v6(limit,poses_articulations(:,i)',jacob_local, jacob_eff, pose_eff, i);
+    [d_min_t, ~, pose_prox_pt_act, vect_normales_effecteur]=verifDistance_v7(limit,poses_articulations(:,i)',jacob_local, jacob_eff, pose_eff);
     
     for j = 1:length(d_min_t)       %pour chacun des objets colisionables
         if d_min_t(j) < min_distance
