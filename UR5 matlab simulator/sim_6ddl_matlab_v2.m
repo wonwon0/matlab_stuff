@@ -25,8 +25,16 @@ link_2_gazebo = false;
 % end
 % rosshutdown
 % % Mouse3D('start');
-dh_eff = dh_UR5();
-my_joystick = vrjoystick(1);
+dh_eff = dh_UR5_v1();
+c = computer;
+if strcmp(c, 'PCWIN64')
+    comp_windows = 1;
+    my_joystick = vrjoystick(2);
+else
+    comp_windows = 0;
+    my_joystick = vrjoystick(1);
+end
+
 last_cond = 0;
 
 % trouver l'état actuel du robot
@@ -38,7 +46,7 @@ pose_init = [pose_init(1,4), pose_init(2,4), pose_init(3,4)];
 pose_init;
 % on examine l'état des collisions au départ de l'algo
 
-jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh_eff);
+jacob_eff = jacob_UR5_v1(Robot_Pose_j ,pose_init, dh_eff);
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
 min_distance = 20;
@@ -76,11 +84,11 @@ while 1
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh_eff);
     Robot_Poses = Robot_Poses(1:3,4)';
     
-    [ dir, rot ] = read_joystick_inputs( my_joystick );
+    [ dir, rot ] = read_joystick_inputs( my_joystick, comp_windows);
     
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
-    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act,h_collision_lines] = collision_manager_matlab(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
+    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
     
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
@@ -93,7 +101,7 @@ while 1
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
 %     end
-    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v3(v_input, last_cond, dh_eff, Robot_Pose_j);
+    [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v4(v_input, last_cond, dh_eff, Robot_Pose_j);
     
     theta_dot = SpeedLimiter(theta_dot, 1);
     
@@ -103,12 +111,12 @@ while 1
     end
     
     %affichage du robot dans le graphique matlab
-    [h_robot_lines] = display_robot_UR5(Robot_Pose_j, dh_eff, h_robot_lines);
+    [h_robot_lines] = display_robot_UR5_v1(h_robot_lines, poses_articulations);
     
     Robot_Pose_j = Robot_Pose_j + theta_dot * 0.01;
     
     drawnow limitrate
-    time = toc;
+    time = toc
     while time < 0.01
         time = toc;
     end

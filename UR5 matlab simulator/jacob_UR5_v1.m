@@ -26,7 +26,7 @@ function [ jac ] = jacob_UR5_v1( theta_act, Pose, dh, membrure)
 end
 
 function [v1, v2, v3, v4, v5, v6] = vitesse_cart_jac_UR5(theta, dh)
-l(1) = dh.b(1); l(2) = dh.b(2); l(3) = dh.a(2); l(4) = -dh.b(3);
+l(1) = dh.b(1); l(2) = dh.b(2); l(3) = dh.a(2); l(4) = dh.b(3);
 l(5) = dh.a(3); l(6) = dh.b(4); l(7) = dh.b(5); l(8) = dh.b(6);
     v1 = vitesse_v1(theta, l);
     v2 = vitesse_v2(theta, l);
