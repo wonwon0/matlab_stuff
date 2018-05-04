@@ -23,7 +23,6 @@ function [v_output]=verifVitesse_trans_rot_v0(v_input,vec_norm,d_min)
         [LimitationActive_trans, d_active_trans] = find_active_limitations(Axe_trans,Limitation_trans, d_min);
         
         % find active rotation limitations
-        Limitation_rot
         [LimitationActive_rot, d_active_rot] = find_active_limitations(Axe_rot, Limitation_rot, d_min);
 
         % repect translation limitations
