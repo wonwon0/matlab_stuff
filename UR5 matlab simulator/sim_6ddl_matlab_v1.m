@@ -86,7 +86,7 @@ while 1
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     v_prem = [dir rot];
-    % normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
+    normale_effecteur_matlab = check_redund_v3(Robot_Poses(1,:), normale_effecteur_matlab,d_min_matlab, pose_prox);
     v_input = verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
     % v_input=verifVitesse_v9(v_prem, normale_effecteur_matlab, d_min_matlab, min_distance);
 %     if ~isempty(normale_effecteur)

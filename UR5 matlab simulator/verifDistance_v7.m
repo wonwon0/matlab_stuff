@@ -11,7 +11,7 @@ for t=1:n
         section_inter=(1-ratio_hauteure)*base+(ratio_hauteure)*top;
         if limit.limite(t).rayonProxy>norm((pose-limit.limite(t).centroide))
             %si on est en haut ou en bas de l'objet:
-            if (pose(3)<base(1,3));
+            if (pose(3)<base(1,3))
                 [d_min(t), x_d_min(t), y_d_min(t), ~, ~, ~, ~, ~, ~, ~]=p_poly_dist(pose(1), pose(2), base(:,1) , base(:,2),true);
                 if (dot([x_d_min(t) y_d_min(t)]-[limit.limite(t).centroide(1),limit.limite(t).centroide(2)],[pose(1),pose(2)]-[x_d_min(t) y_d_min(t)])<=0)
                     %On est directement en dessous de l'obstacle

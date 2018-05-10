@@ -12,7 +12,7 @@ close all
 addpath('../rrr version phil v2')
 addpath('../rrr version phil/geom3d/geom3d')
 addpath('../rrr version phil/geom3d/meshes3d')
-addpath('../rrr version phil/p_poly_dist_v1')
+addpath('./rrr version phil/p_poly_dist_v1')
 addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
 
@@ -87,7 +87,7 @@ while 1
     
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
-    [normale_effecteur_matlab, d_min_matlab, pose_prox, poses_prox_pt_act, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
+    [normale_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
     
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
@@ -115,8 +115,8 @@ while 1
     Robot_Pose_j = Robot_Pose_j + theta_dot * 0.01;
     
     drawnow limitrate
-    time = toc;
-    while time < 0.01
+    time = toc
+    while time < 0.015
         time = toc;
     end
 end

@@ -216,8 +216,13 @@ a2=permute(repmat(P1r(:,2), [1 1 np]), [2 3 1]);
 a1=squeeze(a1(1,:,:));
 a2=squeeze(a2(1,:,:));
 % translation
-Ppr1 = Ppr1 - a1';
-Ppr2 = Ppr2 - a2';
+if length(xp)<= 1
+    Ppr1 = Ppr1 - a1';
+    Ppr2 = Ppr2 - a2';
+else
+    Ppr1 = Ppr1 - a1;
+    Ppr2 = Ppr2 - a2;
+end
 
 % Pcr is a 3D array of size 2 * np * (nv-1) that holds the projections of
 % points on X axis of rotated coordinate systems. Pcr(1,j,k) is an X
@@ -283,9 +288,11 @@ is_vertex = (cond1 | cond2);
 
 % build the minimum distances vector
 d_min = cr_min;
-if(is_vertex)
-    d_min = dpv_min;
+if any(is_vertex)
+    aasdasd= 1;
 end
+d_min(is_vertex) = dpv_min(is_vertex);
+
 
 % mimic the functionality of ver. 1.0 - make all distances negative for
 % points INSIDE the polygon
@@ -308,10 +315,17 @@ y_d_min = vtmp(I_dpv_min);
 % replace the minimum distances with those to projected points that fall
 % inside the segments
 %idx_pr = sub2ind(size(xc), find(~is_vertex), I_cr_min(~is_vertex));
-if(~is_vertex)
-    x_d_min = xc(I_cr_min);
-    y_d_min = yc(I_cr_min);
+I_cr_min_temp = I_cr_min(~is_vertex);
+temp_list = [0:length(is_vertex)-1]'*(nv - 1);
+temp_list = temp_list(~is_vertex);
+if ~isempty(I_cr_min_temp)
+    I_cr_min_temp = I_cr_min_temp + temp_list;
+    xc_temp = xc';
+    yc_temp = yc';
+    x_d_min(~is_vertex) = xc_temp(I_cr_min_temp);
+    y_d_min(~is_vertex) = yc_temp(I_cr_min_temp);
 end
+
 
 % find the indices of segments that contain the closest points
 % note that I_dpv_min contains indices of closest POINTS. To find the 
