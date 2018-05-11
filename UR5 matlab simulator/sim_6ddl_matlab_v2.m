@@ -88,14 +88,14 @@ while 1
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
     [normale_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
-    
+   
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     v_prem = [dir rot];
-    % normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur,d_min, collision_pose_eff);
-    v_input = verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
-    % v_input=verifVitesse_v9(v_prem, normale_effecteur_matlab, d_min_matlab, min_distance);
+    %normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur_matlab,d_min_matlab, pose_prox);
+    %v_input = verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
+    v_input=verifVitesse_v9(v_prem, normale_effecteur_matlab, d_min_matlab, min_distance);
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
@@ -115,7 +115,7 @@ while 1
     Robot_Pose_j = Robot_Pose_j + theta_dot * 0.01;
     
     drawnow limitrate
-    time = toc
+    time = toc;
     while time < 0.015
         time = toc;
     end

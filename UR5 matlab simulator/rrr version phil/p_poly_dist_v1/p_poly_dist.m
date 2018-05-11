@@ -288,16 +288,14 @@ is_vertex = (cond1 | cond2);
 
 % build the minimum distances vector
 d_min = cr_min;
-if any(is_vertex)
-    aasdasd= 1;
-end
+
 d_min(is_vertex) = dpv_min(is_vertex);
 
 
 % mimic the functionality of ver. 1.0 - make all distances negative for
 % points INSIDE the polygon
 if(find_in_out)
-   in = inpolygon(xp, yp, xv, yv);
+   in = inpoly([xp; yp]', [xv yv]);
    d_min(in) = -d_min(in);
 end
 

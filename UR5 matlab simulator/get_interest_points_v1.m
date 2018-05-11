@@ -4,11 +4,8 @@ function [points, jacobians] = get_interest_points_v1(theta, dh_eff)
     %modifie la longueure des membrures en fonction de l'emplacment du point
     %d'interet. Se referer au diagrame du robot pour mieux comprendre.
     mask_a = [1 1 1 1 1 1; %effecteur
-        1 1 1 1 1 1;
         1 1 1 1 1 0; % repere 6
-        1 1 1 1 1 0;
         1 1 1 1 0 0; % repere 5
-        1 1 1 1 0 0;
         1 1 1 0 0 0; % repere 4
         1 1 0.75 0 0 0; %l(5)
         1 1 0.5 0 0 0; %l(5)
@@ -23,11 +20,8 @@ function [points, jacobians] = get_interest_points_v1(theta, dh_eff)
         1 0 0 0 0 0;
         1 0 0 0 0 0]; % repere 2
     mask_b = [1 1 1 1 1 1;%effecteur
-        1 1 1 1 1 0.5;% l(8)
         1 1 1 1 1 0;% repere 6
-        1 1 1 1 0.5 0 %l(7)
         1 1 1 1 0 0;% repere 5
-        1 1 1 0.5 0 0;%l(6)
         1 1 1 0 0 0;% repere 4
         1 1 1 0 0 0;
         1 1 1 0 0 0;
@@ -42,11 +36,8 @@ function [points, jacobians] = get_interest_points_v1(theta, dh_eff)
         1 0.5 0 0 0 0; %l(2)
         1 0 0 0 0 0];% repere 2
     mask_alpha = [1 1 1 1 1 1;%effecteur
-        1 1 1 1 1 1;
         1 1 1 1 1 0;% repere 6
-        1 1 1 1 1 0
         1 1 1 1 0 0;% repere 5
-        1 1 1 1 0 0;
         1 1 1 0 0 0;% repere 4
         1 1 1 0 0 0;
         1 1 1 0 0 0;
