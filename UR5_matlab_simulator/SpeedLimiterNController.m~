@@ -1,0 +1,14 @@
+function [vel] = SpeedLimiterNController(theta_actual,Target,Ts,VMax)
+
+
+% ===================== JOINT VELOCITY STATURATION =====================
+    JointVelocities=min(VMax,1)*[1 1 1 2 2 2]';
+    dJ=Target(1:6)-theta_actual(1:6);
+    Div=max((abs(dJ./(JointVelocities*Ts))));
+    if Div > 1
+        dJ=dJ/Div;
+    end   
+ %REARRENGE
+    RequestAngle=mSentAngle;
+    SentAngle=[mSentAngle(1:6)+u_c;mSentAngle(7:9)];
+end% Init Variables ---------------------

@@ -1,0 +1,19 @@
+function write_limits(filename, limit)
+%afficheur de limites
+n=length(limit.limite);
+cmap = hsv(n);
+for i=1:n
+    if all(limit.limite(i).type=='poly')
+        pt_x=[limit.limite(i).surfaces.surface1(1:end-1,1);limit.limite(i).surfaces.surface2(1:end-1,1)];
+        pt_y=[limit.limite(i).surfaces.surface1(1:end-1,2);limit.limite(i).surfaces.surface2(1:end-1,2)];
+        pt_z=[limit.limite(i).surfaces.surface1(1:end-1,3);limit.limite(i).surfaces.surface2(1:end-1,3)];
+        %T = delaunay(pt_x,pt_y,pt_z);
+        X=[pt_x,pt_y,pt_z];
+        T = delaunay(X);
+        faces = triangulateFaces(T);
+        
+        
+        name = strcat('stl_env_sim/',filename,'_',num2str(i),'.stl');
+        stlwrite(name,X(:,1),X(:,2),X(:,3))
+    end
+end
