@@ -16,7 +16,7 @@ addpath('./rrr version phil/p_poly_dist_v1')
 addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
 
-link_2_gazebo = false;
+link_2_gazebo = true;
 % contact_subscriber = rossubscriber('/forces');
 % contacts = receive(contact_subscriber,10);
 % for i = 1:100
@@ -49,7 +49,7 @@ pose_init;
 jacob_eff = jacob_UR5_v1(Robot_Pose_j ,pose_init, dh_eff);
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
-min_distance = 20;
+min_distance = 50;
 membrures_robot = get_membrures_robot();
 limit = StructureLimites_v3();
 
@@ -60,10 +60,8 @@ camlight;
 axis vis3d equal;
 view(2);
 %set(gca,'Ydir','reverse')
-set(gca,'Xdir','reverse')
-xlabel('x')
-ylabel('y')
-zlabel('z')
+%set(gca,'Xdir','reverse')
+
 axis([-3 3 -3 3 -0.5 3]);
 afficherLimites(limit);
 mat_ligne_x=[1 2];
@@ -72,7 +70,9 @@ mat_ligne_z=[1 2];
 h_robot_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',5,'color','b');
 h_collision_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'color','r');
 
-
+xlabel('x')
+ylabel('y')
+zlabel('z')
 if link_2_gazebo
     [robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, ~] = ur5_ros_controller_init();
     pose_data = receive(robot_joint_subscriber,10);

@@ -1,7 +1,17 @@
 function write_limits(filename, limit)
+addpath('../rrr version phil/geom3d/geom3d')
+addpath('../rrr version phil/geom3d/meshes3d')
+cd 'test_mass_spawn/'
+delete *.stl
+cd '..'
 %afficheur de limites
 n=length(limit.limite);
 cmap = hsv(n);
+X_global = [];
+T = [1 2 4 3;1 2 6 5;5 6 8 7;3 4 8 7;2 4 8 6;1 3 7 5];
+faces = triangulateFaces(T);
+faces_global = [];
+
 for i=1:n
     if all(limit.limite(i).type=='poly')
         pt_x=[limit.limite(i).surfaces.surface1(1:end-1,1);limit.limite(i).surfaces.surface2(1:end-1,1)];
@@ -9,11 +19,13 @@ for i=1:n
         pt_z=[limit.limite(i).surfaces.surface1(1:end-1,3);limit.limite(i).surfaces.surface2(1:end-1,3)];
         %T = delaunay(pt_x,pt_y,pt_z);
         X=[pt_x,pt_y,pt_z];
-        T = delaunay(X);
-        faces = triangulateFaces(T);
-        
-        
-        name = strcat('stl_env_sim/',filename,'_',num2str(i),'.stl');
-        stlwrite(name,X(:,1),X(:,2),X(:,3))
+        n_points=size(X_global,1);
+        faces_global = [faces_global;faces + n_points];
+        X_global = [X_global;X];
+        name = strcat('test_mass_spawn/',filename,'_',num2str(i),'.stl');
+        stlwrite(name,faces,X)
     end
+    system(['export LD_LIBRARY_PATH="";' strcat('meshlabserver -i 'test_poly_2.stl -o test_poly_2.stl -s correct_normals.mlx'])
 end
+% name = strcat('stl_env_sim/',filename,'_0','.stl');
+% stlwrite(name,faces_global,X_global)

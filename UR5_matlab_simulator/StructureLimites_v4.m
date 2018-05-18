@@ -8,14 +8,14 @@ function limit=StructureLimites_v4()
     limit.limite(i).type='poly';
 
     limit.limite(i).surfaces.surface1=[0 0 0;
-                                        0.35 0 0;0 0.28 0;
+                                        0.35 0 0;
                                         0.35 0.28 0;
-                                        
+                                        0 0.28 0;
                                         0 0 0] * 1000;
     limit.limite(i).surfaces.surface2=[0 0 0.48;
-                                        0.35 0 0.48;0 0.28 0.48;
+                                        0.35 0 0.48;
                                         0.35 0.28 0.48;
-                                        
+                                        0 0.28 0.48;
                                         0 0 0.48] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[0.5 -0.2 0.16] * 1000;
@@ -38,13 +38,13 @@ function limit=StructureLimites_v4()
 
     limit.limite(i).surfaces.surface2=[0 0 0.3;
                                         1.5 0 0.3;
-                                        0 1.5 0.3;
                                         1.5 1.5 0.3;
+                                        0 1.5 0.3;
                                         0 0 0.3] * 1000;
     limit.limite(i).surfaces.surface1=[0 0 0;
                                         1.5 0 0;
-                                        0 1.5 0;
                                         1.5 1.5 0;
+                                        0 1.5 0;
                                         0 0 0] * 1000;
     limit.limite(i).rayonProxy=1 * 1000;
     limit.limite(i).offset=[0 0 -0.2] * 1000;
@@ -55,13 +55,13 @@ function limit=StructureLimites_v4()
     limit.limite(i).type='poly';
     limit.limite(i).surfaces.surface1=[-0.08 -0.47 -0.05;
                                         0.04 -0.47 -0.05;
-                                        -0.08 -0.16 -0.05;
                                         0.04 -0.16 -0.05;
+                                        -0.08 -0.16 -0.05;
                                         -0.08 -0.47 -0.05] * 1000;
     limit.limite(i).surfaces.surface2=[-0.08 -0.47 0.08;
                                         0.04 -0.47 0.08;
-                                        -0.08 -0.16 0.08;
                                         0.04 -0.16 0.08;
+                                        -0.08 -0.16 0.08;
                                         -0.08 -0.47 0.08] * 1000;
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
@@ -71,13 +71,13 @@ function limit=StructureLimites_v4()
     limit.limite(i).type='poly';
     limit.limite(i).surfaces.surface1=[0 -0.47 -0.05;
                                         0.4 -0.47 -0.05;
-                                        0 -0.16 -0.05;
                                         0.4 -0.16 -0.05;
+                                        0 -0.16 -0.05;
                                         0 -0.47 -0.05] * 1000;
     limit.limite(i).surfaces.surface2=[0 -0.47 0.08;
                                         0.4 -0.47 0.08;
-                                        0 -0.16 0.08;
                                         0.4 -0.16 0.08;
+                                        0 -0.16 0.08;
                                         0 -0.47 0.08] * 1000;
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
@@ -98,13 +98,13 @@ function limit=StructureLimites_v4()
     limit.limite(i).type='poly';
     limit.limite(i).surfaces.surface1=[0 0 -0.05;
                                         0.1 0 -0.05;
-                                        0 0.25 -0.05;
                                         0.1 0.25 -0.05;
+                                        0 0.25 -0.05;
                                         0 0 -0.05] * 1000;
     limit.limite(i).surfaces.surface2=[0 0 0.05;
                                         0.1 0 0.05;
-                                        0 0.25 0.05;
                                         0.1 0.25 0.05;
+                                        0 0.25 0.05;
                                         0 0 0.05] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[-0.35 -0.2 0] * 1000;
@@ -115,13 +115,13 @@ function limit=StructureLimites_v4()
     limit.limite(i).type='poly';
     limit.limite(i).surfaces.surface1=[0 0 -0.05;
                                         0.1 0 -0.05;
-                                        0 0.35 -0.05;
                                         0.1 0.35 -0.05;
+                                        0 0.35 -0.05;
                                         0 0 -0.05] * 1000;
     limit.limite(i).surfaces.surface2=[0 0 0.05;
                                         0.1 0 0.05;
-                                        0 0.35 0.05;
                                         0.1 0.35 0.05;
+                                        0 0.35 0.05;
                                         0 0 0.05] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[-0.495 -0.2 0] * 1000;
