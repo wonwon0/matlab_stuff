@@ -51,7 +51,7 @@ jacob_eff = jacob_UR5_v1(Robot_Pose_j ,pose_init, dh_eff);
 theta_dot_threshold = 0.0001;
 min_distance = 50;
 membrures_robot = get_membrures_robot();
-limit = StructureLimites_v3();
+limit = StructureLimites_v5();
 
 %affichage des membrures positionn�es.
 fig=figure(1);
@@ -73,7 +73,15 @@ h_collision_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'colo
 xlabel('x')
 ylabel('y')
 zlabel('z')
+
 if link_2_gazebo
+    write_limits('test_poly', limit)
+    pause(1)
+    create_world_file('test_mass_spawn/')
+    pause(1)
+    [status,cmdout] = system(['export LD_LIBRARY_PATH="/home/phil/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu";' 'roslaunch ur_on_table ur_on_table_gazebo_controlled.launch & echo $!']);
+    finishup = onCleanup(@() myCleanupFun(cmdout));
+    pause(10)
     [robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, ~] = ur5_ros_controller_init();
     pose_data = receive(robot_joint_subscriber,10);
     Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
@@ -120,6 +128,8 @@ while 1
         time = toc;
     end
 end
+
+
 
 
 
