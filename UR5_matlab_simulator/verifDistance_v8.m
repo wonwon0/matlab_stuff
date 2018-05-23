@@ -18,7 +18,7 @@ d_min = zeros(0,1);
 jacobians_prox = {};
 poses_points = zeros(0,3);
 for t=1:n
-    if all(limit.limite(t).type=='poly')
+    if strcmp(limit.limite(t).type,'poly')
         base=limit.limite(t).surfaces.surface1;
         top=limit.limite(t).surfaces.surface2;
         ratio_hauteure=(pose(3)-base(1,3))/(top(1,3)-base(1,3));
@@ -144,7 +144,7 @@ for t=1:n
         jacobians_prox = [jacobians_prox, jacobians_base, jacobians_top, jacobians_side];
         poses_base = zeros(0,3); poses_top = zeros(0,3); poses_side = zeros(0,3); poses_prox_base = zeros(0,3); poses_prox_top = zeros(0,3); poses_prox_side = zeros(0,3);
         d_min_base = zeros(0,1); d_min_top = zeros(0,1); d_min_side = zeros(0,1); jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
-    elseif all(limit.limite(t).type=='tube')
+    elseif strcmp(limit.limite(t).type,'tube')
         continue
         if limit.limite(t).rayonProxy>norm((pose-limit.limite(t).centroide))
             base=limit.limite(t).surfaces.base;
@@ -174,7 +174,7 @@ for t=1:n
             end
         else
         end
-    elseif all(limit.limite(t).type=='sphe')
+    elseif strcmp(limit.limite(t).type,'sphe')
         continue
         if limit.limite(t).rayonProxy>norm((pose-limit.limite(t).centroide))
             pose_prox(t,:)=pose+(limit.limite(t).radius-norm((pose-limit.limite(t).centroide)))*(pose-limit.limite(t).centroide)/norm(pose-limit.limite(t).centroide);

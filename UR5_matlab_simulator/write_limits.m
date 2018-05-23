@@ -13,7 +13,7 @@ faces = triangulateFaces(T);
 faces_global = [];
 
 for i=1:n
-    if all(limit.limite(i).type=='poly')
+    if strcmp(limit.limite(i).type,'poly')
         pt_x=[limit.limite(i).surfaces.surface1(1:end-1,1);limit.limite(i).surfaces.surface2(1:end-1,1)];
         pt_y=[limit.limite(i).surfaces.surface1(1:end-1,2);limit.limite(i).surfaces.surface2(1:end-1,2)];
         pt_z=[limit.limite(i).surfaces.surface1(1:end-1,3);limit.limite(i).surfaces.surface2(1:end-1,3)];
