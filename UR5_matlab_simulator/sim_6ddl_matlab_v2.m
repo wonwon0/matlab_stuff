@@ -25,7 +25,7 @@ link_2_gazebo = true;
 % end
 % rosshutdown
 % % Mouse3D('start');
-dh_eff = dh_UR5_v1();
+dh_eff = dh_UR5_v1(110);
 c = computer;
 if strcmp(c, 'PCWIN64')
     comp_windows = 1;

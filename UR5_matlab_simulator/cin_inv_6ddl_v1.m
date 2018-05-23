@@ -1,4 +1,4 @@
-function [ q_sols ] = cin_inv_6ddl_v1( Pose,theta_act)
+function [ q_sols ] = cin_inv_6ddl_v1( Pose,theta_act, dh)
 %cin�matique inverse du robot UR5
 %ce r�f�rer au m�moire de maitrise de Fran�ois L�VESQUES pour la th�orie
 %"PRISE AUTONOME D�OBJETS DIVERS AVEC UN ROBOT S�RIEL INDUSTRIEL, UN PR�HENSEUR
@@ -14,7 +14,7 @@ ZERO_THRESH = 10^-8;
         num_sols = 0;
         q_sols = [0 0 0 0 0 0]';
         %theta_act = theta_act + dh.theta';
-dh = dh_UR5();
+dh = dh_UR5_cin_inv(dh.b(6));%compensation pour l'adapter dans gazebo
 %______________CALCUL DE THETA 1__________________
 q1=[0,0];
 A = dh.b(6)*Pose(2,3) - Pose(2,4);
