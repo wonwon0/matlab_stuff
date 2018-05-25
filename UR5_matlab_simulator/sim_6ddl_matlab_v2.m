@@ -16,7 +16,7 @@ addpath('./rrr version phil/p_poly_dist_v1')
 addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
 
-link_2_gazebo = true;
+link_2_gazebo = false;
 % contact_subscriber = rossubscriber('/forces');
 % contacts = receive(contact_subscriber,10);
 % for i = 1:100

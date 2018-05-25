@@ -1,5 +1,5 @@
 function [proj_vector] = project_vector(matrix_vectors,vector_2)
-%projects vector_2 on all column vectors of matrix_vectors
+%projects vector_2 on all columns vectors of matrix_vectors
 proj_vector = zeros(length(vector_2),1);
 
 for i =1:size(matrix_vectors,2)

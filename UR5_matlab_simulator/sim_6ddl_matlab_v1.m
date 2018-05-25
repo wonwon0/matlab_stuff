@@ -17,6 +17,14 @@ addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
 
 link_2_gazebo = false;
+c = computer;
+if strcmp(c, 'PCWIN64')
+    comp_windows = 1;
+    my_joystick = vrjoystick(2);
+else
+    comp_windows = 0;
+    my_joystick = vrjoystick(1);
+end
 % contact_subscriber = rossubscriber('/forces');
 % contacts = receive(contact_subscriber,10);
 % for i = 1:100
@@ -43,7 +51,7 @@ jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh_eff);
 theta_dot_threshold = 0.0001;
 min_distance = 20;
 membrures_robot = get_membrures_robot();
-limit = StructureLimites_v3();
+limit = StructureLimites_v5();
 
 %affichage des membrures positionn�es.
 fig=figure(1);
@@ -76,7 +84,7 @@ while 1
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh_eff);
     Robot_Poses = Robot_Poses(1:3,4)';
     
-    [ dir, rot ] = read_joystick_inputs( my_joystick );
+    [ dir, rot ] = read_joystick_inputs( my_joystick, comp_windows);
     
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);

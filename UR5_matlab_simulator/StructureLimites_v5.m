@@ -20,6 +20,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[0.5 -0.2 0.16] * 1000;
     limit.limite(i).opp=0.3;
+    limit.limite(i).collision_filter=ones(1,16);
 
     %solide 2
     i = i + 1;
@@ -38,6 +39,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=1 * 1000;
     limit.limite(i).offset=[0 0 -0.2] * 1000;
     limit.limite(i).opp=1;
+    limit.limite(i).collision_filter=ones(1,16);
     
     % %solide 3
     i = i + 1;
@@ -55,6 +57,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[0.3 0 0] * 1000;
+    limit.limite(i).collision_filter=ones(1,16);
     % %solide 4
     i = i + 1;
     limit.limite(i).type='poly';
@@ -71,16 +74,19 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.4 0.4 0.4] * 1000;
+    limit.limite(i).collision_filter=ones(1,16);
     % %solide 5
     i = i + 1;
     limit.limite(i).type='tube';
     limit.limite(i).surfaces.axe=[0 0 1]/norm([0 0 1]);
     limit.limite(i).surfaces.base=[0 0 0];
-    limit.limite(i).surfaces.longueur=1.5 * 1000;
-    limit.limite(i).surfaces.dia=0.12 * 1000;
-    limit.limite(i).rayonProxy=limit.limite(5).surfaces.longueur;
+    limit.limite(i).surfaces.longueur=0.5 * 1000;
+    limit.limite(i).surfaces.dia=0.25 * 1000;
+    limit.limite(i).rayonProxy=limit.limite(i).surfaces.longueur;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[0 0 -0.05] * 1000;
+    limit.limite(i).collision_filter=zeros(1,16);
+    limit.limite(i).collision_filter(1:4) = 1;
 
 
     %solide 8

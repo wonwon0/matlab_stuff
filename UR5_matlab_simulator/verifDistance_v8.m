@@ -18,17 +18,22 @@ d_min = zeros(0,1);
 jacobians_prox = {};
 poses_points = zeros(0,3);
 for t=1:n
+    is_poses_far = limit.limite(t).rayonProxy<vecnorm((poses-limit.limite(t).centroide'));
+    is_collision_filter = limit.limite(t).collision_filter;
+    limits_to_consider = ~is_poses_far & is_collision_filter;
+    
+    
+    poses_to_limit = poses(:, limits_to_consider);
+    jacobians_to_limit = jacobians(limits_to_consider);
+    if isempty(poses_to_limit)
+        continue
+    end
     if strcmp(limit.limite(t).type,'poly')
         base=limit.limite(t).surfaces.surface1;
         top=limit.limite(t).surfaces.surface2;
         ratio_hauteure=(pose(3)-base(1,3))/(top(1,3)-base(1,3));
         section_inter=(1-ratio_hauteure)*base+(ratio_hauteure)*top;
-        is_poses_far = limit.limite(t).rayonProxy<vecnorm((poses-limit.limite(t).centroide'));
-        poses_to_limit = poses(:, ~is_poses_far);
-        jacobians_to_limit = jacobians(~is_poses_far);
-        if isempty(poses_to_limit)
-            continue
-        end
+
         %si on est en haut ou en bas de l'objet:
         poses_base = poses_to_limit(:, poses_to_limit(3,:)<base(1,3));
         jacobians_base = jacobians_to_limit(poses_to_limit(3,:)<base(1,3));
@@ -138,41 +143,76 @@ for t=1:n
         else
             poses_side = zeros(0,3);
         end
+        
         poses_points = [poses_points; poses_base; poses_top; poses_side];
         poses_prox = [poses_prox; poses_prox_base; poses_prox_top; poses_prox_side];
         d_min = [d_min; d_min_base; d_min_top; d_min_side];
         jacobians_prox = [jacobians_prox, jacobians_base, jacobians_top, jacobians_side];
         poses_base = zeros(0,3); poses_top = zeros(0,3); poses_side = zeros(0,3); poses_prox_base = zeros(0,3); poses_prox_top = zeros(0,3); poses_prox_side = zeros(0,3);
         d_min_base = zeros(0,1); d_min_top = zeros(0,1); d_min_side = zeros(0,1); jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
+        
     elseif strcmp(limit.limite(t).type,'tube')
-        continue
-        if limit.limite(t).rayonProxy>norm((pose-limit.limite(t).centroide))
+        if ~isempty(poses_to_limit)
             base=limit.limite(t).surfaces.base;
             top=limit.limite(t).surfaces.base+limit.limite(t).surfaces.axe*limit.limite(t).surfaces.longueur;
-            pos = linePosition3d(pose, [base top]);
-            %si on est en haut ou en bas de l'objet:
-            if pos<0 || pos>1
-                if pos>1
-                    p_A=(pos*limit.limite(t).surfaces.longueur)*limit.limite(t).surfaces.axe+base;
-                    p_B=(pose-p_A)*limit.limite(t).surfaces.dia/2/norm(pose-p_A)-pos*limit.limite(t).surfaces.axe;
-                    pose_prox(t,:)=p_B+top;
-                    d_min(t)=norm(pose_prox(t,:)-pose);
-                else
-                    p_A=(pos*limit.limite(t).surfaces.longueur)*limit.limite(t).surfaces.axe+base;
-                    p_B=(pose-p_A)*limit.limite(t).surfaces.dia/2/norm(pose-p_A)-pos*limit.limite(t).surfaces.axe;
-                    pose_prox(t,:)=p_B+base;
-                    d_min(t)=norm(pose_prox(t,:)-pose);
-                end
-            else 
-                p_A=(pos*limit.limite(t).surfaces.longueur)*limit.limite(t).surfaces.axe+base;
-                p_B=p_A+(pose-p_A)*limit.limite(t).surfaces.dia/2/norm(pose-p_A);
-                pose_prox(t,:)=p_B;
-                d_min(t)=norm(pose_prox(t,:)-pose);
-                if norm(pose_prox(t,:)-pose)>norm(p_A-pose)
-                    d_min(t)=-d_min(t);
-                end
+            pos = linePosition3d(poses_to_limit', [base (top-base)]);
+            
+            pos_top = pos>1;
+            poses_top = poses_to_limit(:,pos_top);
+            jacobians_top = jacobians_to_limit(pos_top);
+            
+            pos_base = pos<0;
+            poses_base = poses_to_limit(:,pos_base);
+            jacobians_base = jacobians_to_limit(pos_base);
+            
+            pos_side = (pos>0 & pos<1);
+            poses_side = poses_to_limit(:,pos_side);
+            jacobians_side = jacobians_to_limit(pos_side);
+            
+            
+            if ~isempty(poses_top) %si on est en haut de l'objet:
+                
+                p_A = top;
+                vec = bsxfun(@minus,poses_top,p_A') - bsxfun(@times, (limit.limite(t).surfaces.axe) * bsxfun(@minus,poses_top,p_A'), (limit.limite(t).surfaces.axe)');
+                ratio_diam = vecnorm(vec);
+                ratio_diam(ratio_diam > limit.limite(t).surfaces.dia / 2) = limit.limite(t).surfaces.dia / 2;
+                vec = vec .* ratio_diam ./ vecnorm(vec);
+                poses_prox_top = (bsxfun(@plus, vec, p_A'))';
+                d_min_top=vecnorm(poses_prox_top-poses_top',2, 2);
             end
-        else
+            if ~isempty(poses_base)
+                p_A = base;
+                vec = bsxfun(@minus,poses_base,p_A') - bsxfun(@times, (limit.limite(t).surfaces.axe) * bsxfun(@minus,poses_base,p_A'), (limit.limite(t).surfaces.axe)');
+                ratio_diam = vecnorm(vec);
+                ratio_diam(ratio_diam > limit.limite(t).surfaces.dia / 2) = limit.limite(t).surfaces.dia / 2;
+                vec = vec .* ratio_diam ./ vecnorm(vec);
+                poses_prox_base = (bsxfun(@plus, vec, p_A'))';
+                d_min_base=vecnorm(poses_prox_base-poses_base',2, 2);
+            end
+            if ~isempty(poses_side)
+                p_A = poses_side;
+                p_A(1,:) = base(1);
+                p_A(2,:) = base(2);
+                vec = poses_side-p_A;
+                ratio_diam = vecnorm(vec);
+                ratio_diam(ratio_diam > limit.limite(t).surfaces.dia / 2) = limit.limite(t).surfaces.dia / 2;
+                vec = vec .* ratio_diam ./ vecnorm(vec);
+                
+                ignore = isnan(vec(1,:)) | (ratio_diam < limit.limite(t).surfaces.dia / 2);
+                vec(:,ignore) = [];
+                jacobians_side(ignore) = [];
+                p_A(:,ignore) = [];
+                poses_side(:,ignore) = [];
+                
+                poses_prox_side = (vec + p_A)';
+                d_min_side=vecnorm(poses_prox_side-poses_side',2, 2);
+            end
+        poses_points = [poses_points; poses_base'; poses_top'; poses_side'];
+        poses_prox = [poses_prox; poses_prox_base; poses_prox_top; poses_prox_side];
+        d_min = [d_min; d_min_base; d_min_top; d_min_side];
+        jacobians_prox = [jacobians_prox, jacobians_base, jacobians_top, jacobians_side];
+        poses_base = zeros(0,3); poses_top = zeros(0,3); poses_side = zeros(0,3); poses_prox_base = zeros(0,3); poses_prox_top = zeros(0,3); poses_prox_side = zeros(0,3);
+        d_min_base = zeros(0,1); d_min_top = zeros(0,1); d_min_side = zeros(0,1); jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
         end
     elseif strcmp(limit.limite(t).type,'sphe')
         continue
