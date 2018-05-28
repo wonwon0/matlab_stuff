@@ -1,22 +1,22 @@
 function [d_min, poses_prox, poses_points, normales_effecteur]=verifDistance_v8(limit,poses,jacobians, jacobian_eff, pose_eff)
 
 jacobians_base = {};
-poses_prox_base = zeros(0,3);
-d_min_base = zeros(0,1);
+poses_prox_base = [];
+d_min_base = [];
 jacobians_top = {};
-poses_prox_top = zeros(0,3);
-d_min_top = zeros(0,1);
+poses_prox_top = [];
+d_min_top = [];
 jacobians_side = {};
-poses_prox_side = zeros(0,3);
-d_min_side = zeros(0,1);
+poses_prox_side = [];
+d_min_side = [];
 
 %verification proximit�:
 n=length(limit.limite);
 pose = poses(1:3);
-poses_prox = zeros(0,3);
-d_min = zeros(0,1);
+poses_prox = [];
+d_min = [];
 jacobians_prox = {};
-poses_points = zeros(0,3);
+poses_points = [];
 for t=1:n
     is_poses_far = limit.limite(t).rayonProxy<vecnorm((poses-limit.limite(t).centroide'));
     is_collision_filter = limit.limite(t).collision_filter;
@@ -55,8 +55,8 @@ for t=1:n
                 d_min_base_under = abs(poses_base_under(3,:)'- base(1,3));
             else
                 jacobians_base_under = {};
-                poses_prox_base_under = zeros(0,3);
-                d_min_base_under = zeros(0,1);
+                poses_prox_base_under = [];
+                d_min_base_under = [];
             end
             
             %poses en dessous et en biais de l'objet
@@ -69,15 +69,15 @@ for t=1:n
                 d_min_base_not_under = sqrt(d_min_base(~is_under).^2 + (poses_base_not_under(3,:)' - base(1,3)).^2);
             else
                 jacobians_base_not_under = {};
-                poses_prox_base_not_under = zeros(0,3);
-                d_min_base_not_under = zeros(0,1);
+                poses_prox_base_not_under = [];
+                d_min_base_not_under = [];
             end
             poses_base = [poses_base_under';poses_base_not_under'];
             poses_prox_base = [poses_prox_base_under ; poses_prox_base_not_under];
             d_min_base = [d_min_base_under; d_min_base_not_under];
             jacobians_base = [jacobians_base_under, jacobians_base_not_under];
         else
-            poses_base = zeros(0,3);
+            poses_base = [];
         end
         if ~isempty(poses_top)
             [d_min_top, x_d_min_top, y_d_min_top, ~, ~, ~, ~, ~, ~, ~]=p_poly_dist(poses_top(1,:), poses_top(2,:), top(:,1) , top(:,2),true);
@@ -91,8 +91,8 @@ for t=1:n
                 d_min_top_over = abs(poses_top_over(3,:)'- top(1,3));
             else
                 jacobians_top_over = {};
-                poses_prox_top_over = zeros(0,3);
-                d_min_top_over = zeros(0,1);
+                poses_prox_top_over = [];
+                d_min_top_over = [];
             end
             
             
@@ -107,8 +107,8 @@ for t=1:n
                 d_min_top_not_over = sqrt(d_min_top(~is_over).^2 + (poses_top_not_over(3,:)' - top(1,3)).^2);
             else
                 jacobians_top_not_over = {};
-                poses_prox_top_not_over = zeros(0,3);
-                d_min_top_not_over = zeros(0,1);
+                poses_prox_top_not_over = [];
+                d_min_top_not_over = [];
             end
             
             poses_top = [poses_top_over';poses_top_not_over'];
@@ -116,7 +116,7 @@ for t=1:n
             d_min_top = [d_min_top_over; d_min_top_not_over];
             jacobians_top = [jacobians_top_over, jacobians_top_not_over];
         else
-            poses_top = zeros(0,3);
+            poses_top = [];
         end
         if ~isempty(poses_side)
             [d_min_side, x_d_min_side, y_d_min_side, ~, ~, ~, ~, ~, ~, ~]=p_poly_dist(poses_side(1,:), poses_side(2,:), section_inter(:,1) , section_inter(:,2),true);
@@ -141,15 +141,15 @@ for t=1:n
             d_min_side = [d_min_side_inside; d_min_side_outside];
             jacobians_side = [jacobians_side_inside, jacobians_side_outside];
         else
-            poses_side = zeros(0,3);
+            poses_side = [];
         end
         
         poses_points = [poses_points; poses_base; poses_top; poses_side];
         poses_prox = [poses_prox; poses_prox_base; poses_prox_top; poses_prox_side];
         d_min = [d_min; d_min_base; d_min_top; d_min_side];
         jacobians_prox = [jacobians_prox, jacobians_base, jacobians_top, jacobians_side];
-        poses_base = zeros(0,3); poses_top = zeros(0,3); poses_side = zeros(0,3); poses_prox_base = zeros(0,3); poses_prox_top = zeros(0,3); poses_prox_side = zeros(0,3);
-        d_min_base = zeros(0,1); d_min_top = zeros(0,1); d_min_side = zeros(0,1); jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
+        poses_base = []; poses_top = []; poses_side = []; poses_prox_base = []; poses_prox_top = []; poses_prox_side = [];
+        d_min_base = []; d_min_top = []; d_min_side = []; jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
         
     elseif strcmp(limit.limite(t).type,'tube')
         if ~isempty(poses_to_limit)
@@ -211,8 +211,8 @@ for t=1:n
         poses_prox = [poses_prox; poses_prox_base; poses_prox_top; poses_prox_side];
         d_min = [d_min; d_min_base; d_min_top; d_min_side];
         jacobians_prox = [jacobians_prox, jacobians_base, jacobians_top, jacobians_side];
-        poses_base = zeros(0,3); poses_top = zeros(0,3); poses_side = zeros(0,3); poses_prox_base = zeros(0,3); poses_prox_top = zeros(0,3); poses_prox_side = zeros(0,3);
-        d_min_base = zeros(0,1); d_min_top = zeros(0,1); d_min_side = zeros(0,1); jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
+        poses_base = []; poses_top = []; poses_side = []; poses_prox_base = []; poses_prox_top = []; poses_prox_side = [];
+        d_min_base = []; d_min_top = []; d_min_side = []; jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
         end
     elseif strcmp(limit.limite(t).type,'sphe')
         continue
