@@ -89,13 +89,15 @@ function limit=StructureLimites_v5()
     limit.limite(i).collision_filter(1:4) = 1;
 
 
-    %solide 8
-%     i = i + 1;
-%     limit.limite(i).type='sphe';
-%     limit.limite(i).radius=0.65 * 1000;
-%     limit.limite(i).rayonProxy=1 * 1000;
-%     limit.limite(i).centroide=[0 0 0.2755] * 1000;
-%     limit.limite(i).opp=0;
+%     solide 8
+    i = i + 1;
+    limit.limite(i).type='sphe';
+    limit.limite(i).radius=0.9 * 1000;
+    limit.limite(i).rayonProxy=1 * 1000;
+    limit.limite(i).centroide=[0 0 0] * 1000;
+    limit.limite(i).opp=0;
+    limit.limite(i).collision_filter=zeros(1,16);
+    limit.limite(i).collision_filter(4) = 1;
     %solide 9
 %     i = i + 1;
 %     limit.limite(i).type='poly';

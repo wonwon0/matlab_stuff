@@ -19,19 +19,19 @@ function [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v4( v_input, last_c
 %     theta_dot/norm(theta_dot)
 %     theta_dot_verif'/norm(theta_dot_verif)
     
-    cond_jac = cond(jac);
-    if cond_jac>9000
-        if last_cond < cond_jac
-            theta_dot = theta_dot * 0;
-            next_ang = Robot_Pose_j;
-            formatSpec = 'conditionnement %f';
-            string = sprintf(formatSpec, cond_jac);
-            display(string)
-        else
-            last_cond = cond_jac;
-        end
-            
-        
-    end
+%     cond_jac = cond(jac);
+%     if cond_jac>9000
+%         if last_cond < cond_jac
+%             theta_dot = theta_dot * 0;
+%             next_ang = Robot_Pose_j;
+%             formatSpec = 'conditionnement %f';
+%             string = sprintf(formatSpec, cond_jac);
+%             display(string)
+%         else
+%             last_cond = cond_jac;
+%         end
+%             
+%         
+%     end
 end
 

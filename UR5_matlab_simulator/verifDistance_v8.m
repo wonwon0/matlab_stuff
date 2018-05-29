@@ -215,11 +215,14 @@ for t=1:n
         d_min_base = zeros(0,1); d_min_top = zeros(0,1); d_min_side = zeros(0,1); jacobians_base = {}; jacobians_top = {}; jacobians_side = {};
         end
     elseif strcmp(limit.limite(t).type,'sphe')
-        continue
-        if limit.limite(t).rayonProxy>norm((pose-limit.limite(t).centroide))
-            pose_prox(t,:)=pose+(limit.limite(t).radius-norm((pose-limit.limite(t).centroide)))*(pose-limit.limite(t).centroide)/norm(pose-limit.limite(t).centroide);
-            d_min(t)=abs((limit.limite(t).radius-norm((pose-limit.limite(t).centroide))));
-        end
+        ratio_rayon = limit.limite(t).radius-vecnorm(bsxfun(@minus,poses_to_limit, (limit.limite(t).centroide)'));
+        vec = bsxfun(@minus,poses_to_limit, (limit.limite(t).centroide)')./vecnorm(bsxfun(@minus,poses_to_limit, (limit.limite(t).centroide)'));
+        poses_prox_shpere = (poses_to_limit + ratio_rayon * vec)';
+        
+        poses_prox = [poses_prox ; poses_prox_shpere];
+        d_min = [d_min; vecnorm(poses_to_limit-poses_prox_shpere')];
+        jacobians_prox = [jacobians_prox jacobians_to_limit];
+        poses_points = [poses_points;poses_to_limit'];
     end
 end
 % pose_prox_act  sont les position des points de contacts

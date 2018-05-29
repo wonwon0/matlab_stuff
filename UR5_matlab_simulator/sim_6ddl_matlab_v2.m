@@ -50,6 +50,7 @@ jacob_eff = jacob_UR5_v1(Robot_Pose_j ,pose_init, dh_eff);
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
 min_distance = 50;
+singularite_tol = 0.1;
 membrures_robot = get_membrures_robot();
 limit = StructureLimites_v5();
 
@@ -95,15 +96,17 @@ while 1
     
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
-    [normale_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
-   
+    [normales_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
+    [normales_effecteur_singularite] = singularities_UR5_finder_V0(Robot_Pose_j, Robot_Poses, dh_eff, singularite_tol);
+    normales_effecteur= [normales_effecteur_matlab; normales_effecteur_singularite];
+    d_min = [d_min_matlab min_distance*ones(1,size(normales_effecteur_singularite,1))];
     %on garde en memoire l'input de l'utilisateur
     %on test si l'input de l'utilisateur n'entre pas en conflit avec une
     %limite
     v_prem = [dir rot];
     %normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur_matlab,d_min_matlab, pose_prox);
     %v_input = verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
-    v_input=verifVitesse_v9(v_prem, normale_effecteur_matlab, d_min_matlab, min_distance);
+    v_input=verifVitesse_v9(v_prem, normales_effecteur, d_min, min_distance);
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
