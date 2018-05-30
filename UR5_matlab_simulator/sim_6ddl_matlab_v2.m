@@ -87,7 +87,8 @@ if link_2_gazebo
     pose_data = receive(robot_joint_subscriber,10);
     Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
 end
-
+normales_effecteur_matlab = [];
+normales_effecteur_singularite = [];
 while 1
     tic;
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh_eff);

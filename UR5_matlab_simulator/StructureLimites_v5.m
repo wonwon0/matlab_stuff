@@ -18,7 +18,7 @@ function limit=StructureLimites_v5()
                                         0 0.28 0.48;
                                         0 0 0.48] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
-    limit.limite(i).offset=[0.5 -0.2 0.16] * 1000;
+    limit.limite(i).offset=[-0.5 -0.2 0.16] * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).collision_filter=ones(1,16);
 
@@ -56,7 +56,7 @@ function limit=StructureLimites_v5()
                                         -0.08 -0.47 0.08] * 1000;
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
-    limit.limite(i).offset=[0.3 0 0] * 1000;
+    limit.limite(i).offset=[-0.3 0 0] * 1000;
     limit.limite(i).collision_filter=ones(1,16);
     % %solide 4
     i = i + 1;

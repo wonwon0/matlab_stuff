@@ -5,9 +5,9 @@ function [normales_effecteur] = singularities_UR5_finder_V0(theta_act, pose, dh,
 normales_effecteur = [];
 theta_act = wrapToPi(theta_act);
 jacob_eff = jacob_UR5_v1( theta_act, pose, dh);
-if abs(theta_act(3)) < tol*10
-    normales_effecteur = [normales_effecteur -null(jacob_eff(:,[1,2,4,5,6])')'];
-end
+% if abs(theta_act(3)) < tol*10
+%     normales_effecteur = [normales_effecteur -null(jacob_eff(:,[1,2,4,5,6])')'];
+% end
 
 if (abs(theta_act(5)) < tol) || (abs(theta_act(5)) > (pi - tol))
     normales_effecteur = [normales_effecteur -null(jacob_eff(:,[1,2,3,4,6])')'];
