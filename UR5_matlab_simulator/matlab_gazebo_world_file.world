@@ -12,9 +12,9 @@
             <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_1.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
           </geometry>
           <material>
-            <ambient>1  0  0 1</ambient>
-            <diffuse>1  0  0 1</diffuse>
-            <specular>0.1 0.1 0.1 1</specular>
+            <ambient>1  0  0 0.7</ambient>
+            <diffuse>1  0  0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
             <emissive>0 0 0 0</emissive>
           </material>
         </visual>
@@ -30,9 +30,9 @@
             <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_2.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
           </geometry>
           <material>
-            <ambient>0.5           1           0 1</ambient>
-            <diffuse>0.5           1           0 1</diffuse>
-            <specular>0.1 0.1 0.1 1</specular>
+            <ambient>0.5           1           0 0.7</ambient>
+            <diffuse>0.5           1           0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
             <emissive>0 0 0 0</emissive>
           </material>
         </visual>
@@ -48,9 +48,9 @@
             <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_3.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
           </geometry>
           <material>
-            <ambient>0  1  1 1</ambient>
-            <diffuse>0  1  1 1</diffuse>
-            <specular>0.1 0.1 0.1 1</specular>
+            <ambient>0  1  1 0.7</ambient>
+            <diffuse>0  1  1 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
             <emissive>0 0 0 0</emissive>
           </material>
         </visual>
@@ -66,9 +66,9 @@
             <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_4.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
           </geometry>
           <material>
-            <ambient>0.5           0           1 1</ambient>
-            <diffuse>0.5           0           1 1</diffuse>
-            <specular>0.1 0.1 0.1 1</specular>
+            <ambient>0.5           0           1 0.7</ambient>
+            <diffuse>0.5           0           1 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
             <emissive>0 0 0 0</emissive>
           </material>
         </visual>

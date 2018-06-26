@@ -1,0 +1,6 @@
+function launch_sim(script_name, auto_launch_t, revert_xy_t)
+auto_launch = auto_launch_t;
+revert_xy = revert_xy;
+run(script_name)
+end
+

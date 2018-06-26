@@ -182,20 +182,18 @@ function limit=StructureLimites_v5()
         end
     end
     % rotation de l'environement par rapport a un angle donné
-    angle = 0;
+    angle = pi;
     mat_rot_z = [cos(angle) sin(angle) 0; -sin(angle) cos(angle) 0; 0 0 1];
     for i=1:length(limit.limite)
         if strcmp(limit.limite(i).type, 'poly')
             s=size(limit.limite(i).surfaces.surface1);
             for j = 1:s(1)
                 limit.limite(i).surfaces.surface1(j,:)=(mat_rot_z * limit.limite(i).surfaces.surface1(j,:)')';
-                limit.limite(i).surfaces.surface2(j,:)=(mat_rot_z * limit.limite(i).surfaces.surface2(j,:)')';
+                limit.limite(i).surfaces.surface2(j,:)=limit.limite(i).surfaces.surface2(j,:)-limit.limite(i).centroide+limit.limite(i).offset;
             end
-            limit.limite(i).centroide=(mat_rot_z * limit.limite(i).centroide')';
+            limit.limite(i).centroide=limit.limite(i).offset;
         elseif strcmp(limit.limite(i).type, 'tube')
-            limit.limite(i).surfaces.base = (mat_rot_z * limit.limite(i).surfaces.base')';
-        elseif strcmp(limit.limite(i).type, 'sphe')
-            limit.limite(i).centroide = (mat_rot_z * limit.limite(i).centroide')';
+            limit.limite(i).surfaces.base = limit.limite(i).offset;
         end
     end
 end

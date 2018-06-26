@@ -16,7 +16,8 @@ addpath('./rrr version phil/p_poly_dist_v1')
 addpath('../rrr version phil/joystick soft 2')
 addpath('../rrr version phil/Remesher')
 
-link_2_gazebo = false;
+% chargement parametres externes
+param_script_sim
 % contact_subscriber = rossubscriber('/forces');
 % contacts = receive(contact_subscriber,10);
 % for i = 1:100
@@ -59,7 +60,7 @@ fig=figure(1);
 set(fig, 'renderer', 'OpenGL');
 camlight;
 axis vis3d equal;
-view(2);
+view(135, 45);
 %set(gca,'Ydir','reverse')
 %set(gca,'Xdir','reverse')
 
@@ -74,15 +75,16 @@ h_collision_lines = line(mat_ligne_x,mat_ligne_y,mat_ligne_z,'LineWidth',2,'colo
 xlabel('x')
 ylabel('y')
 zlabel('z')
-
 if link_2_gazebo
     write_limits('test_poly', limit)
     pause(1)
     create_world_file('test_mass_spawn/')
     pause(1)
-    [status,cmdout] = system(['export LD_LIBRARY_PATH="/home/phil/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu";' 'roslaunch ur_on_table ur_on_table_gazebo_controlled.launch & echo $!']);
-    finishup = onCleanup(@() myCleanupFun(cmdout));
-    pause(10)
+    if auto_launch
+        [status,cmdout] = system(['export LD_LIBRARY_PATH="/home/phil/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu";' 'roslaunch ur_on_table ur_on_table_gazebo_controlled.launch & echo $!']);
+        finishup = onCleanup(@() myCleanupFun(cmdout));
+        pause(10)
+    end
     [robot_joint_subscriber, joint_cmd_publisher, joint_cmd_message, ~] = ur5_ros_controller_init();
     pose_data = receive(robot_joint_subscriber,10);
     Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
@@ -107,7 +109,8 @@ while 1
     v_prem = [dir rot];
     %normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur_matlab,d_min_matlab, pose_prox);
     %v_input = verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
-    v_input=verifVitesse_v9(v_prem, normales_effecteur, d_min, min_distance);
+    %v_input=verifVitesse_v9(v_prem, normales_effecteur, d_min, min_distance);
+    v_input=verifVitesse_ForceField(v_prem,normales_effecteur,d_min, min_distance)
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
