@@ -3,6 +3,31 @@ function limit=StructureLimites_v5()
     %variable "offset" comme �tant l'emplacement futur du centroide du soilde
     %que vous d�finissez.
     i = 0;
+    
+    %solide 0
+    i = i + 1;
+    limit.limite(i).type='poly';
+
+    limit.limite(i).surfaces.surface1=[0 0 0;
+                                        0.4 0 0;
+                                        0.4 0.05 0;
+                                        0 0.05 0;
+                                        0 0 0] * 1000;
+    limit.limite(i).surfaces.surface2=[0 0 0.15;
+                                        0.4 0 0.15;
+                                        0.4 0.05 0.15;
+                                        0 0.05 0.15;
+                                        0 0 0.15] * 1000;
+    limit.limite(i).rayonProxy=0.6 * 1000;
+    limit.limite(i).offset=[-0.45 0.58 0.53] * 1000;
+    limit.limite(i).opp=0.3;
+    limit.limite(i).collision_filter=ones(1,16);
+    
+    
+    
+    
+    
+    
     %solide 1
     i = i + 1;
     limit.limite(i).type='poly';
@@ -89,7 +114,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).collision_filter(1:4) = 1;
 
 
-%     solide 8
+%     solide 6
     i = i + 1;
     limit.limite(i).type='sphe';
     limit.limite(i).radius=0.9 * 1000;
@@ -98,6 +123,42 @@ function limit=StructureLimites_v5()
     limit.limite(i).opp=0;
     limit.limite(i).collision_filter=zeros(1,16);
     limit.limite(i).collision_filter(4) = 1;
+    
+    
+    % %solide 7
+    i = i + 1;
+    limit.limite(i).type='poly';
+    limit.limite(i).surfaces.surface1=[0 -0.47 -0.05;
+                                        0.1 -0.47 -0.05;
+                                        0.1 -0.16 -0.05;
+                                        0 -0.16 -0.05;
+                                        0 -0.47 -0.05] * 1000;
+    limit.limite(i).surfaces.surface2=[0 -0.47 0.18;
+                                        0.1 -0.47 0.18;
+                                        0.1 -0.16 0.18;
+                                        0 -0.16 0.18;
+                                        0 -0.47 0.18] * 1000;
+    limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
+    limit.limite(i).opp=0.3;
+    limit.limite(i).offset=[-0.2 0.4 0.5] * 1000;
+    limit.limite(i).collision_filter=ones(1,16);
+    % solide 8
+    i = i + 1;
+    limit.limite(i).type='poly';
+    limit.limite(i).surfaces.surface1=[0 -0.37 0.05;
+                                        0.4 -0.37 0.05;
+                                        0.4 -0.16 0.05;
+                                        0 -0.16 0.05;
+                                        0 -0.37 0.05] * 1000;
+    limit.limite(i).surfaces.surface2=[0 -0.37 0.08;
+                                        0.4 -0.37 0.08;
+                                        0.4 -0.16 0.08;
+                                        0 -0.16 0.08;
+                                        0 -0.37 0.08] * 1000;
+    limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
+    limit.limite(i).opp=0.3;
+    limit.limite(i).offset=[-0.4 0.45 0.6] * 1000;
+    limit.limite(i).collision_filter=ones(1,16);
     %solide 9
 %     i = i + 1;
 %     limit.limite(i).type='poly';

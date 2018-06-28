@@ -89,7 +89,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).collision_filter(1:4) = 1;
 
 
-%     solide 8
+%     solide 6
     i = i + 1;
     limit.limite(i).type='sphe';
     limit.limite(i).radius=0.9 * 1000;
@@ -98,6 +98,42 @@ function limit=StructureLimites_v5()
     limit.limite(i).opp=0;
     limit.limite(i).collision_filter=zeros(1,16);
     limit.limite(i).collision_filter(4) = 1;
+    
+    
+    % %solide 7
+    i = i + 1;
+    limit.limite(i).type='poly';
+    limit.limite(i).surfaces.surface1=[0 -0.47 -0.05;
+                                        0.1 -0.47 -0.05;
+                                        0.1 -0.16 -0.05;
+                                        0 -0.16 -0.05;
+                                        0 -0.47 -0.05] * 1000;
+    limit.limite(i).surfaces.surface2=[0 -0.47 0.18;
+                                        0.1 -0.47 0.18;
+                                        0.1 -0.16 0.18;
+                                        0 -0.16 0.18;
+                                        0 -0.47 0.18] * 1000;
+    limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
+    limit.limite(i).opp=0.3;
+    limit.limite(i).offset=[-0.2 0.4 0.5] * 1000;
+    limit.limite(i).collision_filter=ones(1,16);
+    % %solide 8
+    i = i + 1;
+    limit.limite(i).type='poly';
+    limit.limite(i).surfaces.surface1=[0 -0.37 0.05;
+                                        0.4 -0.37 0.05;
+                                        0.4 -0.16 0.05;
+                                        0 -0.16 0.05;
+                                        0 -0.37 0.05] * 1000;
+    limit.limite(i).surfaces.surface2=[0 -0.37 0.08;
+                                        0.4 -0.37 0.08;
+                                        0.4 -0.16 0.08;
+                                        0 -0.16 0.08;
+                                        0 -0.37 0.08] * 1000;
+    limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
+    limit.limite(i).opp=0.3;
+    limit.limite(i).offset=[-0.4 0.45 0.58] * 1000;
+    limit.limite(i).collision_filter=ones(1,16);
     %solide 9
 %     i = i + 1;
 %     limit.limite(i).type='poly';
@@ -182,18 +218,20 @@ function limit=StructureLimites_v5()
         end
     end
     % rotation de l'environement par rapport a un angle donné
-    angle = pi;
+    angle = 0;
     mat_rot_z = [cos(angle) sin(angle) 0; -sin(angle) cos(angle) 0; 0 0 1];
     for i=1:length(limit.limite)
         if strcmp(limit.limite(i).type, 'poly')
             s=size(limit.limite(i).surfaces.surface1);
             for j = 1:s(1)
                 limit.limite(i).surfaces.surface1(j,:)=(mat_rot_z * limit.limite(i).surfaces.surface1(j,:)')';
-                limit.limite(i).surfaces.surface2(j,:)=limit.limite(i).surfaces.surface2(j,:)-limit.limite(i).centroide+limit.limite(i).offset;
+                limit.limite(i).surfaces.surface2(j,:)=(mat_rot_z * limit.limite(i).surfaces.surface2(j,:)')';
             end
-            limit.limite(i).centroide=limit.limite(i).offset;
+            limit.limite(i).centroide=(mat_rot_z * limit.limite(i).centroide')';
         elseif strcmp(limit.limite(i).type, 'tube')
-            limit.limite(i).surfaces.base = limit.limite(i).offset;
+            limit.limite(i).surfaces.base = (mat_rot_z * limit.limite(i).surfaces.base')';
+        elseif strcmp(limit.limite(i).type, 'sphe')
+            limit.limite(i).centroide = (mat_rot_z * limit.limite(i).centroide')';
         end
     end
 end
