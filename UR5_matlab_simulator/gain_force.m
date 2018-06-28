@@ -1,7 +1,7 @@
-function [ k ] = gain_force( gain, d_min, d0,d_start )
+function [ k ] = gain_force( gain, dist_from_obj, d0,d_start )
 
-if d_min<(d0+d_start)
-    k=gain*(d_start+d0-d_min);
+if dist_from_obj<(d0+d_start)
+    k=gain*(d_start+d0-dist_from_obj);
 else
     k=0;
 end

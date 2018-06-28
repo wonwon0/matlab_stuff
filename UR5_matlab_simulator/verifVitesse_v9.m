@@ -12,7 +12,7 @@ function [v_output]=verifVitesse_v9(v_input,vec_norm,d_min,min_distance)
         Limitation(abs(Limitation)<0.0000001) = 0;
         Limitation = Limitation(:,abs(sum(Limitation))>0.001);    % filter 0 vectors
         
-        % find active translation limitations
+        % find active limitations
         [LimitationActive, d_active] = find_active_limitations(Axe,Limitation, d_min);
         
 

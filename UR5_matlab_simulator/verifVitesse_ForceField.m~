@@ -18,7 +18,7 @@ function [v_output]=verifVitesse_ForceField(v_input,vec_norm,d_min, min_distance
         [ k ] = gain_force( gainK, d, 0.02 + gaprepuls,gaprepuls );
         deltax = gaprepuls;
 
-        F=((k*(gaprepuls-d)*vec_norm(i,:)-c*v')/d).*[1 1 1 0.01 0.01 0.01];
+        F=((k*(gaprepuls-d)*vec_norm(i,:)-c*v')/d).*[1 1 1;
         Ftot=Ftot+F;
     end
     if isempty(vec_norm)

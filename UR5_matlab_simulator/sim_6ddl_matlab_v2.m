@@ -100,8 +100,11 @@ while 1
 
     Robot_Poses = cin_dir_6ddl(wrapToPi(Robot_Pose_j), dh_eff);
     Robot_Poses = Robot_Poses(1:3,4)';
-    if test_mode && auto_launch
-        interactive_test_solids(Robot_Poses, gazebo)
+    if test_mode(1) && auto_launch
+        test_mode(1) = interactive_test_solids(Robot_Poses, 1);
+    end
+    if test_mode(2) && auto_launch
+        test_mode(2) = interactive_test_solids(Robot_Poses, 2);
     end
     [ dir, rot ] = read_joystick_inputs( my_joystick, comp_windows);
     

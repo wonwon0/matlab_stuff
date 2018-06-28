@@ -3,8 +3,7 @@ function [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v4( v_input, last_c
     rot = v_input(4:6);
     
     [Robot_Pose, ~] = cin_dir_6ddl_v2( Robot_Pose_j, dh);
-    rot_mat = Robot_Pose(1:3, 1:3)
-    Robot_Pose(1:3,4)
+    rot_mat = Robot_Pose(1:3, 1:3);
 
     next_rotation_mat =  eul2rotm(rot, 'XYZ') * rot_mat;
     next_pose = [next_rotation_mat(1,:) dir(1) + Robot_Pose(1,4);...
