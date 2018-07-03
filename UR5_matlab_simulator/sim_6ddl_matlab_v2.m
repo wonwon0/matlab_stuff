@@ -51,7 +51,7 @@ jacob_eff = jacob_UR5_v1(Robot_Pose_j ,pose_init, dh_eff);
 %afficherLimites(limit);
 theta_dot_threshold = 0.0001;
 min_distance = 50;
-singularite_tol = 0.1;
+singularite_tol = 0.4;
 membrures_robot = get_membrures_robot();
 limit = StructureLimites_v5();
 
@@ -105,6 +105,9 @@ while 1
     end
     if test_mode(2) && auto_launch
         test_mode(2) = interactive_test_solids(Robot_Poses, 2);
+    end
+        if test_mode(3) && auto_launch
+        test_mode(2) = interactive_test_solids(Robot_Poses, 3);
     end
     [ dir, rot ] = read_joystick_inputs( my_joystick, comp_windows);
     

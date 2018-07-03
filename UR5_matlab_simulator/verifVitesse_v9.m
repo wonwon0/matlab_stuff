@@ -1,7 +1,7 @@
 function [v_output]=verifVitesse_v9(v_input,vec_norm,d_min,min_distance)
 
         Axe=v_input';        % command by the user
-        
+        inv_command = 0;
         
         if size(vec_norm,1)>0
             Limitation = vec_norm';
@@ -21,9 +21,9 @@ function [v_output]=verifVitesse_v9(v_input,vec_norm,d_min,min_distance)
         
         
         % small proportionnal gain controller for distance to limitation
-        [inv_command] = limitation_distance_controller(AxeRes, LimitationActive, d_active, min_distance);
+        %[inv_command] = limitation_distance_controller(AxeRes, LimitationActive, d_active, min_distance);
         
-        v_output=(AxeRes + inv_command)';
+        v_output=(AxeRes + inv_command * 0.01)';
         
         %v_output = AxeRes';
 end

@@ -3,8 +3,14 @@ function test_mode = interactive_test_solids(pose_eff, solid_to_eval)
 % déterminer si l'objectif du test est atteint. Supprime le modèle gazebo
 % du solide à atteinfre si c'est le cas.
 % solid_to_eval et le numero du solide (1 ou 2) qu'on évalue.
-    if abs(pose_eff(3)-535) < 50 && abs(pose_eff(2)-510) < 50 && solid_to_eval == 1
+    if (abs(pose_eff(3)-535) < 50) && (abs(pose_eff(2)-510)) < 50 && (solid_to_eval == 1)
         system(['export LD_LIBRARY_PATH="/home/phil/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu";' 'rosservice call /gazebo/delete_model "model_name: ''test_poly_1''"']);
+        test_mode = 0;
+    elseif (abs(pose_eff(3)-7) < 100) && (abs(pose_eff(2)+182)) < 10 && (solid_to_eval == 2)
+        system(['export LD_LIBRARY_PATH="/home/phil/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu";' 'rosservice call /gazebo/delete_model "model_name: ''test_poly_2''"']);
+        test_mode = 0;
+    elseif (abs(pose_eff(3)-950) < 100) && (abs(pose_eff(1)+350)) < 10 && (solid_to_eval == 3)
+        system(['export LD_LIBRARY_PATH="/home/phil/catkin_ws/devel/lib:/opt/ros/kinetic/lib:/opt/ros/kinetic/lib/x86_64-linux-gnu";' 'rosservice call /gazebo/delete_model "model_name: ''test_poly_3''"']);
         test_mode = 0;
     else
         test_mode = 1;
