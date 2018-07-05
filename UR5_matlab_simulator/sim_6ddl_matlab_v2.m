@@ -122,9 +122,13 @@ while 1
     %limite
     v_prem = [dir rot];
     %normale_effecteur = check_redund_v3(Robot_Poses(1,:), normale_effecteur_matlab,d_min_matlab, pose_prox);
-    %v_input = verifVitesse_trans_rot_v0(v_prem,normale_effecteur_matlab,d_min_matlab);
-    v_input=verifVitesse_v9(v_prem, normales_effecteur, d_min, min_distance);
-    %v_input=verifVitesse_ForceField(v_prem,normales_effecteur,d_min, min_distance);
+    if sliding_mode == 1
+        v_input = verifVitesse_trans_rot_v0(v_prem,normales_effecteur,d_min);
+    elseif sliding_mode == 2
+        v_input=verifVitesse_v9(v_prem, normales_effecteur, d_min, min_distance);
+    else
+        v_input=verifVitesse_ForceField(v_prem,normales_effecteur,d_min, min_distance);
+    end
 %     if ~isempty(normale_effecteur)
 %         dir=verifVitesse_v7(dir,normale_effecteur(:,1:3),d_min, min_gap * 1);
 %         rot=verifVitesse_v7(rot,-normale_effecteur(:,4:6),d_min, min_gap * 1);
