@@ -134,10 +134,10 @@ function limit=StructureLimites_v5()
 %     solide 6
     i = i + 1;
     limit.limite(i).type='sphe';
-    limit.limite(i).radius=0.9 * 1000;
-    limit.limite(i).rayonProxy=1 * 1000;
+    limit.limite(i).radius=0.8 * 1000;
+    limit.limite(i).rayonProxy=2 * 1000;
     limit.limite(i).centroide=[0 0 0] * 1000;
-    limit.limite(i).opp=0;
+    limit.limite(i).opp=0.1;
     limit.limite(i).collision_filter=zeros(1,16);
     limit.limite(i).collision_filter(4) = 1;
     
@@ -201,13 +201,13 @@ function limit=StructureLimites_v5()
     limit.limite(i).type='poly';
 
     limit.limite(i).surfaces.surface1=[0 0 0;
-                                        0.05 0 0;
-                                        0.05 0.5 0;
+                                        0.025 0 0;
+                                        0.025 0.5 0;
                                         0 0.5 0;
                                         0 0 0] * 1000;
     limit.limite(i).surfaces.surface2=[0 0 0.2;
-                                        0.05 0 0.2;
-                                        0.05 0.5 0.2;
+                                        0.025 0 0.2;
+                                        0.025 0.5 0.2;
                                         0 0.5 0.2;
                                         0 0 0.2] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
@@ -220,13 +220,13 @@ function limit=StructureLimites_v5()
     limit.limite(i).type='poly';
 
     limit.limite(i).surfaces.surface1=[0 0 0;
-                                        0.05 0 0;
-                                        0.05 0.5 0;
+                                        0.025 0 0;
+                                        0.025 0.5 0;
                                         0 0.5 0;
                                         0 0 0] * 1000;
     limit.limite(i).surfaces.surface2=[0 0 0.2;
-                                        0.05 0 0.2;
-                                        0.05 0.5 0.2;
+                                        0.025 0 0.2;
+                                        0.025 0.5 0.2;
                                         0 0.5 0.2;
                                         0 0 0.2] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
