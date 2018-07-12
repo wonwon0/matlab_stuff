@@ -1,0 +1,7 @@
+rosservice call /gazebo/spawn_sdf_model "model_name: 'model_1'
+model_xml: '<sdf version="1.4"> <model name="model_1"> <pose>0.0 0 0.815 0 0 0</pose> <allow_auto_disable>false</allow_auto_disable> <link name="link"> <visual name="visual"> <geometry> <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_1.stl</uri><scale>0.0011 0.0011 0.0011</scale></mesh> </geometry> <material> <ambient> 0 1 0 1</ambient> <diffuse> 0 1 0 1</diffuse> <specular>0 1 0 1</specular> <emissive>0 0 0 0</emissive> </material> </visual> </link> <static>1</static> </model> </sdf>'
+robot_namespace: 'dummy'
+initial_pose:
+  position: {x: 0, y: 0, z: 0.815}
+  orientation: {x: 0.0, y: 0.0, z: 0.0, w: 0.0}
+reference_frame: 'world'"

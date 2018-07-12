@@ -1,4 +1,4 @@
-link_2_gazebo = 0;
-auto_launch = 0;
-test_mode = [0, 0, 0];
-sliding_mode = 1;
+link_2_gazebo = 1;
+auto_launch = 1;
+test_mode = [1, 1, 1];
+sliding_mode = 2;

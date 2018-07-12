@@ -112,7 +112,25 @@ while 1
     
     [ dir, rot, other_buttons ] = read_joystick_inputs( my_joystick, comp_windows);
     
-    button_choices_script
+    
+    if (other_buttons(10) == 1) && link_2_gazebo
+        for i = 1:3
+            if test_mode(i)==0
+                test_mode(i) = interactive_test_solids(Robot_Poses, i * 10);
+            end
+        end
+        Robot_Pose_j = [-1,-2,2,0,1,0];
+
+        pose_init = cin_dir_6ddl(Robot_Pose_j,dh_eff);
+        pose_init = [pose_init(1,4), pose_init(2,4), pose_init(3,4)];
+        pose_init;
+        % on examine l'état des collisions au départ de l'algo
+
+        jacob_eff = jacob_UR5_v1(Robot_Pose_j ,pose_init, dh_eff);
+        ur5_ros_controller_reset(joint_cmd_publisher, joint_cmd_message, pose_data, Robot_Pose_j);
+        Robot_Pose_j_history = [0 Robot_Pose_j 0 0 0];
+    end
+    
     
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
@@ -133,7 +151,7 @@ while 1
         v_input=verifVitesse_ForceField(v_prem,normales_effecteur,d_min, min_distance);
     else
         v_input=verifVitesse_v9(v_prem, normales_effecteur, d_min, min_distance);
-        if any(v_prem ~= v_input)
+        if v_prem ~= v_input
             v_input = v_input * 0;
         end
     end

@@ -3,6 +3,7 @@ addpath('../rrr version phil/geom3d/geom3d')
 addpath('../rrr version phil/geom3d/meshes3d')
 cd 'test_mass_spawn/'
 delete *.stl
+delete *.txt
 cd '..'
 %afficheur de limites
 n=length(limit.limite);
@@ -14,9 +15,9 @@ faces_global = [];
 
 for i=1:n
     if strcmp(limit.limite(i).type,'poly')
-        pt_x=[limit.limite(i).surfaces.surface1(1:end-1,1);limit.limite(i).surfaces.surface2(1:end-1,1)];
-        pt_y=[limit.limite(i).surfaces.surface1(1:end-1,2);limit.limite(i).surfaces.surface2(1:end-1,2)];
-        pt_z=[limit.limite(i).surfaces.surface1(1:end-1,3);limit.limite(i).surfaces.surface2(1:end-1,3)];
+        pt_x=[limit.limite(i).surfaces.surface1(1:end-1,1) - limit.limite(i).offset(1);limit.limite(i).surfaces.surface2(1:end-1,1) - limit.limite(i).offset(1)];
+        pt_y=[limit.limite(i).surfaces.surface1(1:end-1,2) - limit.limite(i).offset(2);limit.limite(i).surfaces.surface2(1:end-1,2) - limit.limite(i).offset(2)];
+        pt_z=[limit.limite(i).surfaces.surface1(1:end-1,3) - limit.limite(i).offset(3);limit.limite(i).surfaces.surface2(1:end-1,3) - limit.limite(i).offset(3)];
         temp_x_1 = pt_x(3,:);
         temp_x_2 = pt_x(7,:);
         pt_x(3,:) = pt_x(4,:);
@@ -43,6 +44,9 @@ for i=1:n
         name = strcat('test_mass_spawn/',filename,'_',num2str(i),'.stl');
         stlwrite(name,faces,X)
         cd 'test_mass_spawn/'
+        f = fopen(strcat(filename,'_',num2str(i),'.txt'),'w');
+        fwrite(f, num2str(limit.limite(i).offset/1000 + [0 0 0.815]));
+        fclose(f);
         command = strcat({'meshlabserver -i '},filename,'_',num2str(i),{'.stl -o '},filename,'_',num2str(i),'.stl -s correct_normals.mlx');
         system(['export LD_LIBRARY_PATH="";' command{1}])
         cd '..'

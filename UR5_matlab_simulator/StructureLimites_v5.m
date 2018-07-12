@@ -134,7 +134,7 @@ function limit=StructureLimites_v5()
 %     solide 6
     i = i + 1;
     limit.limite(i).type='sphe';
-    limit.limite(i).radius=0.8 * 1000;
+    limit.limite(i).radius=0.9 * 1000;
     limit.limite(i).rayonProxy=2 * 1000;
     limit.limite(i).centroide=[0 0 0] * 1000;
     limit.limite(i).opp=0.1;

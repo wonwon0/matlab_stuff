@@ -1,4 +1,4 @@
-function [ dir, rot ] = read_joystick_inputs( my_joystick, comp_windows)
+function [ dir, rot, buttons ] = read_joystick_inputs( my_joystick, comp_windows)
     [axes, buttons, povs] = read(my_joystick);
     if comp_windows
         if povs ==-1
