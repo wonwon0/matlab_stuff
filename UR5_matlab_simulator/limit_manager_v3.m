@@ -1,6 +1,6 @@
 function AxeRes=limit_manager_v3(LimitationActive,Axe)
-    LimitationActive;
-    Axe;
+%     LimitationActive
+%     Axe
     if isempty(LimitationActive)
         AxeRes = Axe;
     else

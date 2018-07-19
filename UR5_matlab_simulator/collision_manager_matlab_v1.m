@@ -1,5 +1,5 @@
     
-function [normales_effecteur, d_min, pose_prox, h8, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h8, min_distance)
+function [normales_effecteur, d_min, pose_prox, h8, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h8, min_distance, link_2_gazebo)
 
 
 poses_prox_pt_act = 1;
@@ -43,7 +43,7 @@ end
 mat_ligne_x=[];
 mat_ligne_y=[];
 mat_ligne_z=[];
-if 1
+if ~link_2_gazebo
     for p=1:length(d_min_t)
         if isempty(poses_prox)
             continue

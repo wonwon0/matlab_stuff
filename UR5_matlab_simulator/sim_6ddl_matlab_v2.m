@@ -116,8 +116,8 @@ while 1
     
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
-    [normales_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance);
-    [normales_effecteur_singularite, d_min_singularites] = singularities_UR5_finder_V0(Robot_Pose_j, Robot_Poses, dh_eff, singularite_tol);
+    [normales_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance, link_2_gazebo);
+    [normales_effecteur_singularite, d_min_singularites] = singularities_UR5_finder_V1(Robot_Pose_j, Robot_Poses, dh_eff, singularite_tol)
     normales_effecteur= [normales_effecteur_matlab; normales_effecteur_singularite];
     d_min = [d_min_matlab min_distance*d_min_singularites];
     %on garde en memoire l'input de l'utilisateur
@@ -140,16 +140,17 @@ while 1
     [ next_ang, theta_dot, next_pose ] = move_ur5_robot_v4(v_input, last_cond, dh_eff, Robot_Pose_j);
     
     theta_dot = SpeedLimiter(theta_dot, 1);
+    next_ang = next_ang + theta_dot * 0.015;
     
     
     if link_2_gazebo
         [ Robot_Pose_j_history ] = ros_ur_controller_manager_v1( theta_dot, next_ang, theta_dot_threshold, pose_data, joint_cmd_publisher, joint_cmd_message, Robot_Pose_j_history);
+    
+    else
+        %affichage du robot dans le graphique matlab
+        [h_robot_lines] = display_robot_UR5_v1(h_robot_lines, poses_articulations);
     end
-    
-    %affichage du robot dans le graphique matlab
-    [h_robot_lines] = display_robot_UR5_v1(h_robot_lines, poses_articulations);
-    
-    Robot_Pose_j = Robot_Pose_j + theta_dot * 0.01;
+    Robot_Pose_j = Robot_Pose_j + theta_dot * 0.015;
     
     drawnow limitrate
     time = toc;

@@ -20,7 +20,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.2 0.4 0.5] * 1000;
-    limit.limite(i).collision_filter=ones(1,16);    
+    limit.limite(i).collision_filter=ones(1,18);    
 %     solide 6
     i = i + 1;
     limit.limite(i).type='sphe';
@@ -28,7 +28,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=2 * 1000;
     limit.limite(i).centroide=[0 0 0] * 1000;
     limit.limite(i).opp=0.1;
-    limit.limite(i).collision_filter=zeros(1,16);
+    limit.limite(i).collision_filter=zeros(1,18);
     limit.limite(i).collision_filter(4) = 1;
     
     

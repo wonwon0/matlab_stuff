@@ -2,6 +2,7 @@ function limit=StructureLimites_v5()
     %Fabriquer les solides ind�pendemment de leur emplacement futurs. D�inir la
     %variable "offset" comme �tant l'emplacement futur du centroide du soilde
     %que vous d�finissez.
+    n = 18;
     i = 0;
     
     
@@ -22,7 +23,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[-0.45 0.58 0.53] * 1000;
     limit.limite(i).opp=0.3;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     
     
     
@@ -43,7 +44,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[-0.5 -0.4 0.16] * 1000;
     limit.limite(i).opp=0.3;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     
     %solide 1
     i = i + 1;
@@ -62,7 +63,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[-0.4 0 0.90] * 1000;
     limit.limite(i).opp=0.3;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
 
     %solide 2
     i = i + 1;
@@ -81,7 +82,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=1 * 1000;
     limit.limite(i).offset=[0 0 -0.2] * 1000;
     limit.limite(i).opp=1;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     
     % %solide 3
     i = i + 1;
@@ -99,7 +100,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.3 -0.2 0] * 1000;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     % %solide 4
     i = i + 1;
     limit.limite(i).type='poly';
@@ -116,29 +117,29 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.4 0.4 0.4] * 1000;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     % %solide 5
     i = i + 1;
     limit.limite(i).type='tube';
     limit.limite(i).surfaces.axe=[0 0 1]/norm([0 0 1]);
     limit.limite(i).surfaces.base=[0 0 0];
-    limit.limite(i).surfaces.longueur=0.5 * 1000;
+    limit.limite(i).surfaces.longueur=0.5 * 3000;
     limit.limite(i).surfaces.dia=0.25 * 1000;
     limit.limite(i).rayonProxy=limit.limite(i).surfaces.longueur;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[0 0 -0.05] * 1000;
-    limit.limite(i).collision_filter=zeros(1,16);
+    limit.limite(i).collision_filter=zeros(1,n);
     limit.limite(i).collision_filter(1:4) = 1;
 
 
 %     solide 6
     i = i + 1;
     limit.limite(i).type='sphe';
-    limit.limite(i).radius=0.9 * 1000;
+    limit.limite(i).radius=0.85 * 1000;
     limit.limite(i).rayonProxy=2 * 1000;
     limit.limite(i).centroide=[0 0 0] * 1000;
     limit.limite(i).opp=0.1;
-    limit.limite(i).collision_filter=zeros(1,16);
+    limit.limite(i).collision_filter=zeros(1,n);
     limit.limite(i).collision_filter(4) = 1;
     
     
@@ -158,7 +159,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.2 0.4 0.5] * 1000;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     % solide 8
     i = i + 1;
     limit.limite(i).type='poly';
@@ -175,7 +176,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.4 0.45 0.6] * 1000;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     
     
     % solide 9
@@ -194,7 +195,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=sqrt(3*0.1^2)+0.4 * 1000;
     limit.limite(i).opp=0.3;
     limit.limite(i).offset=[-0.55 -0.2 0.15] * 1000;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
 
     % solide 10
     i = i + 1;
@@ -213,7 +214,7 @@ function limit=StructureLimites_v5()
     limit.limite(i).rayonProxy=0.6 * 1000;
     limit.limite(i).offset=[-0.450 0 0.8] * 1000;
     limit.limite(i).opp=0.3;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
     
     % solide 11
     i = i + 1;
@@ -230,9 +231,9 @@ function limit=StructureLimites_v5()
                                         0 0.5 0.2;
                                         0 0 0.2] * 1000;
     limit.limite(i).rayonProxy=0.6 * 1000;
-    limit.limite(i).offset=[-0.325 0 0.8] * 1000;
+    limit.limite(i).offset=[-0.300 0 0.8] * 1000;
     limit.limite(i).opp=0.3;
-    limit.limite(i).collision_filter=ones(1,16);
+    limit.limite(i).collision_filter=ones(1,n);
 
     %Definition des centroides de chaque solides
     for i=1:length(limit.limite)

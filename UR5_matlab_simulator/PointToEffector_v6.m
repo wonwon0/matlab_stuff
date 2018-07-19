@@ -1,6 +1,7 @@
 function [normale_effecteur]=PointToEffector_v6(vect_norm_plan, jacob_pt, jacob_eff)
-
-    vect_norm_plan=[0, 0, 0, vect_norm_plan];
+    if length(vect_norm_plan) == 3
+        vect_norm_plan=[0, 0, 0, vect_norm_plan];
+    end
     K_trans=jacob_pt/jacob_eff;
     normale_effecteur_trans = K_trans'*vect_norm_plan';
     normale_effecteur_trans(abs(normale_effecteur_trans)<0.0000000000000001)=0;
