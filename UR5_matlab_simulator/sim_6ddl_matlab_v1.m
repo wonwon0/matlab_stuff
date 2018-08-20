@@ -51,7 +51,7 @@ jacob_eff = jacob_UR5(Robot_Pose_j ,pose_init, dh_eff);
 theta_dot_threshold = 0.0001;
 min_distance = 20;
 membrures_robot = get_membrures_robot();
-limit = StructureLimites_v5();
+limit = StructureLimites_v6();
 
 %affichage des membrures positionn�es.
 fig=figure(1);
