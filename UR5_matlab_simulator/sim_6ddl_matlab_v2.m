@@ -53,7 +53,7 @@ theta_dot_threshold = 0.0001;
 min_distance = 50;
 singularite_tol = 0.4;
 membrures_robot = get_membrures_robot();
-limit = StructureLimites_v5();
+limit = StructureLimites_v6();
 
 %affichage des membrures positionn�es.
 fig=figure(1);
