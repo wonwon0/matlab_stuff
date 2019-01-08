@@ -20,6 +20,7 @@ if size(vectors,2) > 5
         end
     end
 end
+
 if size(vectors,2) > 5 %no solutions for 6 DOF robot (6 non-linearly dependant vectors)
     perp_vectors = [];
     return
@@ -39,6 +40,7 @@ for i = 1:size(vectors,1)
         u = [u M_ident(:,i) - project_vector(u,M_ident(:,i))];
     end
 end
+u
 u(abs(u)<0.0000001) = 0; % clearing small values
 vect_ok = [];
 flag = 0;

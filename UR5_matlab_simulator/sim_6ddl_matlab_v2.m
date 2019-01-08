@@ -117,7 +117,7 @@ while 1
     % On cherche si un objet entre en collision avec le robot
     %[normale_effecteur, collision_pose_eff, d_min, collision_poses, membrures_colisions] = collision_manager(contact_subscriber, Robot_Pose_j, dh_eff, membrures_robot);
     [normales_effecteur_matlab, d_min_matlab, pose_prox, h_collision_lines, poses_articulations] = collision_manager_matlab_v1(limit, Robot_Pose_j, dh_eff, h_collision_lines, min_distance, link_2_gazebo);
-    [normales_effecteur_singularite, d_min_singularites] = singularities_UR5_finder_V1(Robot_Pose_j, Robot_Poses, dh_eff, singularite_tol)
+    [normales_effecteur_singularite, d_min_singularites] = singularities_UR5_finder_V1(Robot_Pose_j, Robot_Poses, dh_eff, singularite_tol);
     normales_effecteur= [normales_effecteur_matlab; normales_effecteur_singularite];
     d_min = [d_min_matlab min_distance*d_min_singularites];
     %on garde en memoire l'input de l'utilisateur
