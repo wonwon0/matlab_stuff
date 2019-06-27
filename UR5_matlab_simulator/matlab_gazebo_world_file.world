@@ -4,7 +4,7 @@
     <include><uri>model://sun</uri></include>
     <include><uri>model://ground_plane</uri></include>
 <model name="test_poly_1">
-      <pose>-0.2         0.4       1.315 0 0 0</pose>
+      <pose>-0.45        0.58       1.345 0 0 0</pose>
       <allow_auto_disable>false</allow_auto_disable>
       <link name="link">
         <visual name="visual">
@@ -14,6 +14,186 @@
           <material>
             <ambient>1  0  0 0.7</ambient>
             <diffuse>1  0  0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_10">
+      <pose>-0.4        0.45       1.415 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_10.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>1     0.54545           0 0.7</ambient>
+            <diffuse>1     0.54545           0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_11">
+      <pose>-0.55        -0.2       0.965 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_11.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0.90909           1           0 0.7</ambient>
+            <diffuse>0.90909           1           0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_12">
+      <pose>-0.45           0       1.615 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_12.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0.36364           1           0 0.7</ambient>
+            <diffuse>0.36364           1           0 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_13">
+      <pose>-0.3           0       1.615 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_13.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0           1     0.18182 0.7</ambient>
+            <diffuse>0           1     0.18182 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_2">
+      <pose>-0.5        -0.4       0.975 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_2.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0           1     0.72727 0.7</ambient>
+            <diffuse>0           1     0.72727 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_3">
+      <pose>-0.4           0       1.715 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_3.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0     0.72727           1 0.7</ambient>
+            <diffuse>0     0.72727           1 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_4">
+      <pose>0           0       0.615 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_4.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0     0.18182           1 0.7</ambient>
+            <diffuse>0     0.18182           1 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_5">
+      <pose>-0.3        -0.2       0.815 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_5.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0.36364           0           1 0.7</ambient>
+            <diffuse>0.36364           0           1 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_6">
+      <pose>-0.4         0.4       1.215 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_6.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>0.90909           0           1 0.7</ambient>
+            <diffuse>0.90909           0           1 0.7</diffuse>
+            <specular>0.1 0.1 0.1 0.7</specular>
+            <emissive>0 0 0 0</emissive>
+          </material>
+        </visual>
+      </link>
+      <static>1</static>
+    </model>
+<model name="test_poly_9">
+      <pose>-0.2         0.4       1.315 0 0 0</pose>
+      <allow_auto_disable>false</allow_auto_disable>
+      <link name="link">
+        <visual name="visual">
+          <geometry>
+            <mesh><uri>/home/phil/catkin_ws/src/matlab_stuff/UR5_matlab_simulator/test_mass_spawn/test_poly_9.stl</uri><scale>0.001 0.001 0.001</scale></mesh>
+          </geometry>
+          <material>
+            <ambient>1           0     0.54545 0.7</ambient>
+            <diffuse>1           0     0.54545 0.7</diffuse>
             <specular>0.1 0.1 0.1 0.7</specular>
             <emissive>0 0 0 0</emissive>
           </material>
