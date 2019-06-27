@@ -1,0 +1,10 @@
+<!DOCTYPE FilterScript>
+<FilterScript>
+ <filter name="Merge Close Vertices">
+  <Param type="RichAbsPerc" value="0" min="0" name="Threshold" max="3.56931"/>
+ </filter>
+ <filter name="Re-Orient all faces coherentely"/>
+ <filter name="Invert Faces Orientation">
+  <Param type="RichBool" value="true" name="forceFlip"/>
+ </filter>
+</FilterScript>

@@ -1,7 +1,8 @@
-function afficherLimites(limit)
+function h = afficherLimites(limit)
 %afficheur de limites
 n=length(limit.limite);
 cmap = hsv(n);
+h=[];
 for i=1:n
     if limit.limite(i).opp ==0
         line_opp=0;

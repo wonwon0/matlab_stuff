@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+    <asset>
+        <contributor>
+            <authoring_tool>MatLab 9.3.0.713579 (R2017b)</authoring_tool>
+        </contributor>
+        <created>2018-05-17T16:49:34Z</created>
+        <modified>2018-05-17T16:49:34Z</modified>
+        <unit meter="1" name="meter" />
+        <up_axis>Z_UP</up_axis>
+    </asset>
+    <library_visual_scenes>
+        <visual_scene id="VISUAL_SCENE">
+            <node name="MatLab">
+                <instance_geometry url="#GEOMETRY">
+                    <bind_material>
+                        <technique_common>
+                            <instance_material symbol="MATERIAL_SYMBOL" target="#MATERIAL">
+                                <bind_vertex_input semantic="UV" input_semantic="TEXCOORD" input_set="0" />
+                            </instance_material>
+                        </technique_common>
+                    </bind_material>
+                </instance_geometry>
+            </node>
+        </visual_scene>
+    </library_visual_scenes>
+    <library_geometries>
+        <geometry id="GEOMETRY">
+            <mesh>
+                <source id="POSITION">
+                    <float_array id="VERTEX_DATA" count="18">
+710 -32 -80
+360 -32 -80
+710 -312 -80
+360 -32 -80
+360 -312 -80
+710 -312 -80
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#VERTEX_DATA" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <source id="NORMAL">
+                    <float_array id="NORMAL_DATA" count="18">
+0 0 -1
+0 0 -1
+0 0 -1
+0 0 -1
+0 0 -1
+0 0 -1
+                    </float_array>
+                    <technique_common>
+                        <accessor count="6" source="#NORMAL_DATA" stride="3">
+                            <param name="X" type="float" />
+                            <param name="Y" type="float" />
+                            <param name="Z" type="float" />
+                        </accessor>
+                    </technique_common>
+                </source>
+                <vertices id="verts">
+                    <input semantic="POSITION" source="#POSITION" />
+                    <input semantic="NORMAL" source="#NORMAL" />
+                </vertices>
+                <triangles count="2" material="MATERIAL_SYMBOL">
+                    <input offset="0" semantic="VERTEX" source="#verts" />
+                    <p>
+0 1 2
+3 4 5
+                    </p>
+                </triangles>
+            </mesh>
+        </geometry>
+    </library_geometries>
+    <library_materials>
+        <material id="MATERIAL">
+            <instance_effect url="#EFFECT" />
+        </material>
+    </library_materials>
+    <library_effects>
+        <effect id="EFFECT">
+            <profile_COMMON>
+                <technique sid="COMMON">
+                    <lambert>
+                        <diffuse>
+                            <color>0.7 0.7 0.7 </color>
+                        </diffuse>
+                    </lambert>
+                </technique>
+            </profile_COMMON>
+            <extra>
+                <technique>
+                    <double_sided>1</double_sided>
+                </technique>
+            </extra>
+        </effect>
+    </library_effects>
+    <scene>
+        <instance_visual_scene url="#VISUAL_SCENE" />
+    </scene>
+</COLLADA>

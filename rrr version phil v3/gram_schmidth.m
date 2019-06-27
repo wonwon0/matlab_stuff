@@ -20,7 +20,7 @@ for i = 1:size(vectors,1)
         u = [u M_ident(:,i) - project_vector(u,M_ident(:,i))];
     end
 end
-u(abs(u)<0.001) = 0; % clearing small values
+u(abs(u)<0.0000001) = 0; % clearing small values
 vect_ok = [];
 flag = 0;
 for i = 1:size(u,2)

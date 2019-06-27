@@ -1,6 +1,6 @@
 function [d_min, pose_prox, pose_prox_pt_act]=verifDistance_v4(limit,pose,L, L_eff,theta)
 
-%verification proximité:
+%verification proximitï¿½:
 n=length(limit.limite);
 
 for t=1:n
@@ -106,7 +106,7 @@ if L~=L_eff
     for t=1:n
         vec_norm(t,:)=(pose-pose_prox(t,:))/norm(pose-pose_prox(t,:));
     end
-    normale_effecteur=PointToEffector(vec_norm, theta, L_eff,L );
+    normale_effecteur=PointToEffector_v4(vec_norm, theta, L_eff,L );
     for t=1:n
         pose_prox(t,:)=pose+normale_effecteur;
     end
