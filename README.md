@@ -5,7 +5,8 @@ Prérequis pour le lancement du simulateur :
  Installation de Matlab avec le package robotics (pour communiquer avec ROS)
  Installation de ROS.
  
- Il faut ensuite créer un catkin warkspace et cloner ce dépot github ainsi que d'autres dépots github:
+ Il faut ensuite créer un catkin workspace et cloner ce dépot github ainsi que d'autres dépots github:
+ - https://github.com/wonwon0/matlab_stuff/
  - https://github.com/wonwon0/ur-arm-pkgs
  - https://github.com/wonwon0/joint-control-pkgs
  - https://github.com/wonwon0/convenience-pkgs
