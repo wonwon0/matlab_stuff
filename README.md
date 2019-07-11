@@ -4,7 +4,13 @@ all my unmaintained matlab code, some written in french, other in english, ventu
 Prérequis pour le lancement du simulateur :
  Installation de Matlab avec le package robotics (pour communiquer avec ROS)
  Installation de ROS.
-
+ 
+ Il faut ensuite créer un catkin warkspace et cloner ce dépot github ainsi que d'autres dépots github:
+ - https://github.com/wonwon0/ur-arm-pkgs
+ - https://github.com/wonwon0/joint-control-pkgs
+ - https://github.com/wonwon0/convenience-pkgs
+ 
+ Ensuite effectuer une catkin_make.
 
 Pour lancer la simulation 6DDL, ouvrir matlab, naviguer dans le répertoire UR5_matalb_simulator et lancer la fonction:
 
